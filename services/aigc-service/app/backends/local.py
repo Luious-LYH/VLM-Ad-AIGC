@@ -380,7 +380,10 @@ class LocalBackend(AigcBackend):
         content.append({"type": "text", "text": prompt})
         messages = [{"role": "user", "content": content}]
         text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-        inputs = processor(text=[text], images=images, padding=True, return_tensors="pt").to(self.cfg.device_vlm)
+        processor_kwargs: dict[str, Any] = {"text": [text], "padding": True, "return_tensors": "pt"}
+        if images:
+            processor_kwargs["images"] = images
+        inputs = processor(**processor_kwargs).to(self.cfg.device_vlm)
         with torch.inference_mode():
             generated = model.generate(**inputs, max_new_tokens=1200, do_sample=False)
         trimmed = generated[:, inputs.input_ids.shape[1] :]
@@ -415,6 +418,20 @@ class LocalBackend(AigcBackend):
             # Text-only storyboard generation is kept deterministic in the
             # existing TypeScript stitcher; a real VLM call is not necessary here.
             raise BackendUnavailable("script.stitch is handled by the TypeScript manifest stitcher")
+        elif operation == "product.polish":
+            product = dict(payload.get("product") or {})
+            dirty_fields = [str(field) for field in payload.get("dirty_fields", [])]
+            prompt = (
+                "Rewrite only the requested product-description fields for a commercial storyboard. "
+                "Return JSON only with schema_version=product/v1 and the same product/v1 fields. "
+                "Keep factual visual attributes grounded in the supplied JSON; never invent a brand, "
+                "logo, ingredient, specification, or capability. Requested fields: "
+                f"{dirty_fields}. Current product JSON: {json.dumps(product, ensure_ascii=False)}"
+            )
+            polished = self._qwen_json(prompt, [], ProductV1Output)
+            result = {**product, **{field: polished.get(field, product.get(field)) for field in dirty_fields}}
+            result.update({"schema_version": "product/v1", "polish_source": "qwen3_vl",
+                           "dirty_fields": dirty_fields})
         else:
             raise BackendUnavailable(f"unsupported local VLM operation: {operation}")
         return result, self._run(self.cfg.vlm_model, self.cfg.vlm_revision, None, started)

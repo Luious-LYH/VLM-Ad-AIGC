@@ -58,3 +58,17 @@ def test_model_failure_is_not_silently_replaced(tmp_path, monkeypatch):
         assert "requested model unavailable" in str(error)
     else:
         raise AssertionError("requested model was silently replaced")
+
+
+def test_product_polish_is_a_local_vlm_operation(tmp_path, monkeypatch):
+    worker = backend(tmp_path)
+    monkeypatch.setattr(worker, "_qwen_json", lambda _prompt, _images, _schema: {
+        "schema_version": "product/v1", "visual_description": "polished factual description",
+    })
+    result, run = worker.invoke("product.polish", {
+        "product": {"schema_version": "product/v1", "visual_description": "old"},
+        "dirty_fields": ["visual_description"],
+    })
+    assert result["visual_description"] == "polished factual description"
+    assert result["polish_source"] == "qwen3_vl"
+    assert run.model_id

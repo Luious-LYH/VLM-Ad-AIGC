@@ -291,7 +291,10 @@ def visual_quality_metrics(frames: list[Image.Image], masks: list[np.ndarray | N
             failure_tags.add("near_uniform_crop")
         if saturation[-1] > 0.45:
             failure_tags.add("severe_clipping_candidate")
-    bad = sum((value < 0.01 or value > 0.45) for value in contrast)
+    bad = sum(
+        (contrast[index] < 0.01 or saturation[index] > 0.45)
+        for index in range(len(contrast))
+    )
     return {
         "status": "succeeded",
         "method": "masked_crop_sharpness_exposure_diagnostic",
