@@ -31,7 +31,7 @@ class SegmentResult:
     attempted_backends: list[str] | None = None
 
     def metadata(self) -> dict[str, Any]:
-        value = asdict(self)
+        value = {"schema_version": "segmentation/v1", **asdict(self)}
         value.pop("mask", None)
         if self.bbox is not None:
             value["bbox"] = list(self.bbox)

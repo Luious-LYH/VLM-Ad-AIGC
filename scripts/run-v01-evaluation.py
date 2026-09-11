@@ -237,12 +237,135 @@ def temporal_metrics(frames: list[Image.Image], masks: list[np.ndarray | None], 
     return {
         "status": "succeeded", "mean_frame_delta": round(mean_delta, 6),
         "frame_delta_jitter": round(jitter, 6), "temporal_stability": round(stability, 4),
+        # A normalized diagnostic where lower is better.  This is deliberately
+        # kept separate from stability/smoothness so a high-motion clip is not
+        # automatically treated as a failure.
+        "temporal_flicker": round(max(0.0, min(1.0, jitter * 25.0)), 4),
         "motion_smoothness": round(smoothness, 4), "dynamic_degree": round(dynamic, 4),
         "mask_area_mean": round(float(np.mean(mask_areas)), 5) if mask_areas else None,
         "mask_area_std": round(float(np.std(mask_areas)), 5) if len(mask_areas) > 1 else 0.0,
         "probe": probe,
         "method": "uniform sampled frame deltas; diagnostic heuristic, not official VBench",
+        "legacy_motion_heuristic": {
+            "temporal_stability": round(stability, 4),
+            "motion_smoothness": round(smoothness, 4),
+            "dynamic_degree": round(dynamic, 4),
+            "note": "retained for comparison; not the event-level Storyboard score",
+        },
     }
+
+
+def visual_quality_metrics(frames: list[Image.Image], masks: list[np.ndarray | None]) -> dict[str, Any]:
+    """Report transparent, lightweight visual-health diagnostics.
+
+    This is not an aesthetic model.  It catches obvious unusable samples
+    (missing/near-uniform crops and severe clipping) and keeps per-frame raw
+    values so a human can audit any warning instead of treating a proxy score
+    as ground truth.
+    """
+    if not frames or len(frames) != len(masks):
+        return {"status": "unavailable", "reason": "empty_or_mismatched_frames", "method": "diagnostic_heuristic"}
+    sharpness: list[float] = []
+    saturation: list[float] = []
+    contrast: list[float] = []
+    failure_tags: set[str] = set()
+    for image, mask in zip(frames, masks):
+        rgb = np.asarray(image.convert("RGB"), dtype=np.float32) / 255.0
+        if mask is not None and np.any(mask):
+            pixels = rgb[mask]
+        else:
+            pixels = rgb.reshape(-1, 3)
+            failure_tags.add("mask_missing")
+        gray = pixels.mean(axis=1)
+        contrast.append(float(gray.std()))
+        saturation.append(float(np.mean(np.any((pixels <= 1.0 / 255.0) | (pixels >= 254.0 / 255.0), axis=1))))
+        # A resize keeps this cheap and makes the diagnostic independent of
+        # the requested output resolution.
+        small = np.asarray(image.convert("L").resize((96, 128)), dtype=np.float32) / 255.0
+        gx = np.diff(small, axis=1)
+        gy = np.diff(small, axis=0)
+        sharpness.append(float(np.var(gx) + np.var(gy)))
+        if not np.isfinite(rgb).all():
+            failure_tags.add("nan_or_inf")
+        if contrast[-1] < 0.01:
+            failure_tags.add("near_uniform_crop")
+        if saturation[-1] > 0.45:
+            failure_tags.add("severe_clipping_candidate")
+    bad = sum((value < 0.01 or value > 0.45) for value in contrast)
+    return {
+        "status": "succeeded",
+        "method": "masked_crop_sharpness_exposure_diagnostic",
+        "quality_score": round(1.0 - bad / max(1, len(frames)), 4),
+        "bad_frame_rate": round(bad / max(1, len(frames)), 4),
+        "mean_sharpness": round(float(np.mean(sharpness)), 6),
+        "mean_masked_contrast": round(float(np.mean(contrast)), 6),
+        "mean_clipped_pixel_rate": round(float(np.mean(saturation)), 6),
+        "failure_tags": sorted(failure_tags),
+        "note": "Proxy diagnostics only; final visual quality still requires human review.",
+    }
+
+
+def load_generation_records(record_root: Path) -> dict[str, dict[str, Any]]:
+    """Index sidecar generation records by their canonical video id.
+
+    The evaluator is intentionally usable on an existing media directory, but
+    when the generator emitted a record (as it does for the curated example),
+    carrying its latency, VRAM and model revision into ``metrics.json`` makes
+    the engineering comparison auditable instead of leaving null placeholders.
+    """
+    indexed: dict[str, dict[str, Any]] = {}
+    if not record_root.is_dir():
+        return indexed
+    # Accept both the curated ``record_*.json`` format and the comparison
+    # runner's ``images/*.json`` + ``videos/*.json`` sidecars.
+    pending: dict[str, dict[str, Any]] = {}
+    for path in sorted(record_root.rglob("*.json")):
+        try:
+            record = read_json(path)
+        except Exception:
+            continue
+        if not isinstance(record, dict):
+            continue
+        image = record.get("image", {})
+        video = record.get("video", {})
+        if isinstance(image, dict) and isinstance(video, dict) and image and video:
+            image_model = str(image.get("model") or video.get("image_model") or "").strip()
+            video_model = str(video.get("model") or "").strip()
+            sample_id = str(record.get("sample_id") or image.get("sample_id") or video.get("sample_id") or "").strip()
+            if image_model and video_model:
+                entry = {"path": str(path.resolve()), "record": record}
+                indexed[f"{image_model}__{video_model}"] = entry
+                if sample_id:
+                    indexed[f"{image_model}__{video_model}__{sample_id}"] = entry
+            continue
+        # Phase-2 comparison sidecars are separate files.  Merge them in
+        # memory so an evaluation still reports real generation provenance.
+        parent_name = path.parent.name
+        if parent_name not in {"images", "videos"} or "result" not in record:
+            continue
+        sample_id = str(record.get("sample_id") or "").strip()
+        if parent_name == "images":
+            image_model, video_model = str(record.get("model") or "").strip(), ""
+            key = f"{image_model}__{sample_id}"
+            pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}})["image"] = record
+        else:
+            image_model, video_model = str(record.get("image_model") or "").strip(), str(record.get("model") or "").strip()
+            key = f"{image_model}__{video_model}__{sample_id}"
+            pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}})["video"] = record
+    for key, value in pending.items():
+        record = value.get("record", {})
+        image_model = str(value.get("image", {}).get("model") or "")
+        video_model = str(value.get("video", {}).get("model") or "")
+        if image_model and video_model:
+            record["image"] = value["image"]
+            record["video"] = value["video"]
+            entry = {"path": value["path"], "record": record}
+            indexed[key] = entry
+            sample_id = str(record.get("sample_id") or "")
+            indexed[f"{image_model}__{video_model}"] = entry
+            if sample_id:
+                indexed[f"{image_model}__{video_model}__{sample_id}"] = entry
+    return indexed
 
 
 def run_vlm_product(config_path: Path, model: str, model_path: Path, input_path: Path, out_dir: Path) -> dict[str, Any]:
@@ -301,8 +424,8 @@ def markdown_report(manifest: dict[str, Any], metrics: list[dict[str, Any]], pat
         f"- 输入: `{manifest['input']['path']}`", f"- 输入 SHA256: `{manifest['input']['sha256']}`",
         f"- Prompt hash: `{manifest['prompt']['sha256']}`", f"- 硬件: `{manifest['hardware'].get('nvidia_smi', [])}`",
         "", "## 视频结果", "",
-        "| 组合 | 分割/跟踪 | 商品一致性 mean/min/p10/std | 输入-关键帧 | CLIP-I | CLIP-V | Storyboard | 稳定性 | 证据 |",
-        "|---|---|---|---:|---:|---:|---:|---:|---|",
+        "| 组合 | 分割/跟踪 | 商品一致性 mean/min/p10/std | 输入-关键帧 | CLIP-I | CLIP-V | Storyboard | 稳定性 | 可用性 | 生成延迟(ms) | 证据 |",
+        "|---|---|---|---:|---:|---:|---:|---:|---:|---|---|",
     ]
     for item in metrics:
         product = item.get("product_consistency", {})
@@ -313,7 +436,8 @@ def markdown_report(manifest: dict[str, Any], metrics: list[dict[str, Any]], pat
             f"{dino.get('mean', 'unavailable')} / {dino.get('min', 'unavailable')} / {dino.get('p10', 'unavailable')} / {dino.get('std', 'unavailable')} | "
             f"{product.get('keyframe', {}).get('mean', 'unavailable')} | {item.get('text_match', {}).get('image', 'unavailable')} | "
             f"{item.get('text_match', {}).get('video', 'unavailable')} | {item.get('storyboard', {}).get('score', 'unavailable')} | "
-            f"{temporal.get('temporal_stability', 'unavailable')} | `{item.get('evidence_dir')}` |"
+            f"{temporal.get('temporal_stability', 'unavailable')} | {item.get('visual_quality', {}).get('quality_score', 'unavailable')} | "
+            f"{item.get('engineering', {}).get('image_latency_ms', '—')} / {item.get('engineering', {}).get('video_latency_ms', '—')} | `{item.get('evidence_dir')}` |"
         )
     lines += ["", "## 解释", "", "- `商品一致性` 只对真实 mask 的商品 crop 计算 DINOv2，不使用旧中心椭圆作为默认值。",
               "- `Storyboard` 是逐事件视觉规则分数，并保留事件窗口、证据帧和违规项；不是人工审美评分，也不冒充官方 VBench。",
@@ -328,8 +452,14 @@ def main() -> None:
     parser.add_argument("--evaluation-config", type=Path, default=DEFAULT_EVAL_CONFIG)
     parser.add_argument("--input", type=Path, default=DEFAULT_SAMPLE_ROOT / "input.png")
     parser.add_argument("--prompt", default=None)
+    parser.add_argument("--user-prompt", default=None,
+                        help="Original user request stored separately from the canonical generation prompt")
     parser.add_argument("--keyframe-root", type=Path, default=DEFAULT_SAMPLE_ROOT / "keyframes")
     parser.add_argument("--video-root", type=Path, default=DEFAULT_SAMPLE_ROOT / "videos")
+    parser.add_argument("--record-root", type=Path, default=DEFAULT_SAMPLE_ROOT / "records",
+                        help="Optional generator sidecars used to populate latency/VRAM provenance")
+    parser.add_argument("--model-registry", type=Path,
+                        default=PROJECT_ROOT / "configs/v0.1/model-registry.json")
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--dino-path", type=Path, default=None)
@@ -347,9 +477,12 @@ def main() -> None:
     config = read_json(args.config.resolve())
     evaluation_config = read_json(args.evaluation_config.resolve()) if args.evaluation_config.resolve().is_file() else {}
     prompt = args.prompt or config["prompts"]["video"]
+    user_prompt = args.user_prompt if args.user_prompt is not None else (args.prompt or "")
     input_path = resolve_path(args.input)
     keyframe_root = resolve_path(args.keyframe_root)
     video_root = resolve_path(args.video_root)
+    record_root = resolve_path(args.record_root)
+    registry_path = resolve_path(args.model_registry)
     if not input_path.is_file():
         raise FileNotFoundError(input_path)
     run_id = args.run_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -376,8 +509,9 @@ def main() -> None:
     if args.vlm_model == "none":
         write_json(run_dir / "understanding" / "product.json", product_record)
     intent = {
-        "schema_version": "intent/v1", "user_prompt": args.prompt or "",
+        "schema_version": "intent/v1", "user_prompt": user_prompt,
         "generation_prompt": prompt, "rewrite_enabled": False,
+        "rewritten_prompt": None, "negative_prompt": config.get("prompts", {}).get("negative"),
         "rewrite_model": None, "prompt_version": "v0.1-canonical",
         "prompt_sha256": prompt_hash(prompt),
         "constraints": {"no_new_brand": True, "no_extra_container": True, "preserve_identity": True},
@@ -391,6 +525,13 @@ def main() -> None:
     write_json(run_dir / "storyboard" / "storyboard.json", storyboard)
 
     embedder = EmbeddingModels(dino_path, clip_path)
+    generation_records = load_generation_records(record_root)
+    from app.adapters.registry import load_registry
+
+    try:
+        model_registry = load_registry(registry_path)
+    except Exception as exc:
+        raise RuntimeError(f"unable to load v0.1 model registry: {registry_path}: {exc}") from exc
     input_dino = embedder.dino_embedding(input_image, input_segment.mask)
     caption = "premium perfume, single rectangular amber glass flacon, champagne gold cap"
     text_vector = embedder.clip_text_embedding(caption)
@@ -457,18 +598,60 @@ def main() -> None:
             evidence_dir / "storyboard", frame_times=sample_times,
         )
         temporal = temporal_metrics(sampled_frames, sampled_masks, {**probe, "sampled_frame_count": len(sampled_frames)})
+        visual_quality = visual_quality_metrics(sampled_frames, sampled_masks)
+        generation_entry = generation_records.get(video_id)
+        if generation_entry is None:
+            parts = video_id.split("__")
+            generic_video_id = "__".join(parts[:2]) if len(parts) >= 2 else video_id
+            generation_entry = generation_records.get(generic_video_id)
+        generation_record = generation_entry.get("record", {}) if generation_entry else {}
+        image_record = generation_record.get("image", {}) if isinstance(generation_record, dict) else {}
+        video_record = generation_record.get("video", {}) if isinstance(generation_record, dict) else {}
+        image_result = image_record.get("result", {}) if isinstance(image_record, dict) else {}
+        video_result = video_record.get("result", {}) if isinstance(video_record, dict) else {}
+        video_segmentation_success = round(float(tracking.get("valid_mask_count", 0)) / max(1, int(tracking.get("sample_count", 0))), 4)
+        overall_segmentation_success = bool(
+            input_segment.status == "succeeded" and keyframe_seg.status == "succeeded"
+            and video_segmentation_success > 0.0
+        )
         item = {
             "schema_version": "evaluation/v1", "video_id": video_id, "video_path": str(video_path),
             "video_sha256": sha256(video_path), "keyframe_path": str(keyframe_path),
             "tracking": tracking, "segmentation": {"input": input_mask_meta, "keyframe": keyframe_meta},
+            "segmentation_success": {
+                "status": "succeeded" if overall_segmentation_success else "unavailable",
+                "input": input_segment.status == "succeeded",
+                "keyframe": keyframe_seg.status == "succeeded",
+                "video_raw_rate": video_segmentation_success,
+                "method": "alpha_or_saliency_component_with_video_mask_tracking",
+            },
             "product_consistency": product_consistency,
             "text_match": {"caption": caption, "image": round(image_clip, 5) if image_clip is not None else None,
                             "video": round(statistics.mean(video_clip_values), 5) if video_clip_values else None,
                             "clip_status": "succeeded" if embedder.clip is not None else "unavailable"},
-            "storyboard": storyboard_result, "temporal": temporal,
-            "engineering": {"probe": probe, "vlm_latency_ms": product_record.get("latency_ms"),
-                            "image_latency_ms": None, "video_latency_ms": None, "peak_vram_mb": None,
-                            "failure_rate": round(1.0 - tracking.get("product_appearance_rate", 0.0), 4)},
+            "storyboard": storyboard_result, "temporal": temporal, "visual_quality": visual_quality,
+            "engineering": {
+                "probe": probe,
+                "vlm_latency_ms": product_record.get("latency_ms"),
+                "image_latency_ms": image_result.get("latency_ms"),
+                "video_latency_ms": video_result.get("latency_ms"),
+                "peak_vram_mb": max([
+                    int(value) for value in (
+                        product_record.get("peak_vram_mb"), image_result.get("peak_vram_mb"),
+                        video_result.get("peak_vram_mb"),
+                    ) if isinstance(value, (int, float))
+                ], default=None),
+                "peak_vram_by_stage_mb": {
+                    "vlm": product_record.get("peak_vram_mb"),
+                    "image": image_result.get("peak_vram_mb"),
+                    "video": video_result.get("peak_vram_mb"),
+                },
+                "generation_record": generation_entry.get("path") if generation_entry else None,
+                "generation_record_status": generation_record.get("status") if generation_entry else "missing",
+                "image_model_revision": image_result.get("model_revision"),
+                "video_model_revision": video_result.get("model_revision"),
+                "failure_rate": round(1.0 - tracking.get("product_appearance_rate", 0.0), 4),
+            },
             "evidence_dir": str(evidence_dir), "evidence_paths": evidence_paths,
         }
         write_json(run_dir / "metrics" / f"{video_id}.json", item)
@@ -479,10 +662,13 @@ def main() -> None:
         "schema_version": "run_manifest/v1", "run_id": run_id,
         "created_at": datetime.now(timezone.utc).isoformat(), "finished_at": datetime.now(timezone.utc).isoformat(),
         "input": {"path": str(input_path), "copied_path": str(input_copy), "sha256": sha256(input_path), "mask": input_mask_meta},
-        "prompt": {"user_prompt": args.prompt or "", "generation_prompt": prompt, "sha256": prompt_hash(prompt), "rewrite_enabled": False},
+        "prompt": {"user_prompt": user_prompt, "generation_prompt": prompt, "sha256": prompt_hash(prompt), "rewrite_enabled": False},
         "models": {"vlm": args.vlm_model, "dino": str(dino_path), "clip": str(clip_path),
                    "image": ["sdxl_ip_adapter", "flux2_klein"], "video": ["ltxv_2b", "wan22_ti2v_5b"]},
-        "config": str(args.config.resolve()), "evaluation_config": str(args.evaluation_config.resolve()), "seed": config.get("seed"), "hardware": hardware_snapshot(),
+        "config": str(args.config.resolve()), "evaluation_config": str(args.evaluation_config.resolve()),
+        "record_root": str(record_root), "generation_records": sorted(generation_records),
+        "model_registry": str(registry_path), "registry_models": model_registry.get("models", {}),
+        "seed": config.get("seed"), "hardware": hardware_snapshot(),
         "embedding_model_errors": embedder.errors, "segmentation_policy": input_segment.metadata(),
         "media": media_manifest, "metrics_count": len(metrics),
         "elapsed_ms": int((time.perf_counter() - started) * 1000),

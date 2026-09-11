@@ -115,6 +115,20 @@ export AIGC_MODEL_ROOT=/public/lyh/projects/CV_projects/models
 3. 运行示例矩阵：`python scripts/run-phase2-comparison.py --config configs/example-comparison.json`；`configs/phase2-comparison.json` 是同一可复现实例的完整 2×2×2 配置，可复制其中的 `samples` 条目加入自己的商品图。
 4. 计算 v0.1 商品 mask、DINO/CLIP、Storyboard 和时序指标：`python scripts/run-v01-evaluation.py --run-id <run-id>`；如果需要真实商品理解，再增加 `--vlm-model qwen3_vl --vlm-path <local-checkpoint>` 或 `--vlm-model internvl3_5_8b --vlm-path <local-checkpoint>`。
 
+如果需要从一张新商品图和用户需求启动完整的本地链路（生成阶段需要先启动本地 GPU API），使用统一编排入口：
+
+```bash
+python scripts/run-v01-pipeline.py \
+  --generate \
+  --input samples/example/input.png \
+  --prompt "premium amber perfume launch with a slow camera orbit" \
+  --service-url http://127.0.0.1:8100 \
+  --vlm-model qwen3_vl \
+  --vlm-path models/Qwen3-VL-4B-Instruct-v3
+```
+
+模型角色、路径环境变量、版本和能力集中记录在 [`configs/v0.1/model-registry.json`](configs/v0.1/model-registry.json)。生成失败不会静默换模型；只有显式设置 `AIGC_ALLOW_EXPLICIT_FALLBACK=true` 才允许带原因的回退。
+
 默认矩阵为 **2 VLM × 2 图像模型 × 2 视频模型**。VLM 负责商品 JSON 理解与评测；SDXL + IP-Adapter 或 FLUX.2-klein 负责关键帧；LTXV 或 Wan2.2 负责 I2V；DINO/CLIP 和时序启发式脚本负责离线评测。服务端的 Python 依赖、API schema 和测试位于 `services/aigc-service/`。
 
 后续迭代边界和可直接交给本地 Agent 的执行提示词见 [`docs/plans/`](docs/plans/)。
