@@ -47,7 +47,9 @@ assert job["result"]["selected_image"], job
 video = request("/v1/video", {
     "model": "ltxv_2b",
     "prompt": "stable product turntable",
-    "input_image": "https://assets.example.test/keyframe.png",
+    # The fake backend only validates the URI contract; localhost is in the
+    # default allowlist so this smoke test needs no external asset host.
+    "input_image": "http://localhost/keyframe.png",
     "width": 576,
     "height": 1024,
     "num_frames": 49,
