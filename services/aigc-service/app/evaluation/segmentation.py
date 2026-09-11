@@ -157,6 +157,29 @@ def _saliency_segment(image: Image.Image) -> SegmentResult:
                        fallback_reason="all_components_too_small_or_border_connected",
                        attempted=["alpha", "sam3.1", "groundingdino+sam2", "saliency_component"])
     _, area, selected = max(components, key=lambda item: item[0])
+    # Metallic caps can have almost the same colour as the studio background,
+    # leaving only a central stripe after thresholding.  A small, resolution-
+    # proportional morphological bridge restores the closed product silhouette
+    # without reverting to a fixed image-wide ellipse.
+    bridge = max(2, int(round(min(width, height) * 0.012)))
+    selected_box = _bbox(selected)
+    if selected_box is not None:
+        # Only bridge the upper cap band.  Dilating the whole component can
+        # accidentally join a product to a nearby pedestal in studio shots.
+        cap_limit = selected_box[1] + int((selected_box[3] - selected_box[1]) * 0.32)
+        cap_seed = selected.copy()
+        cap_seed[cap_limit:, :] = False
+        cap_bridge = ndimage.binary_dilation(cap_seed, iterations=bridge)
+        cap_bridge[cap_limit:, :] = False
+        selected = selected | cap_bridge
+    # A bottle often touches a broad stone/plinth surface.  Remove only the
+    # low, unusually wide horizontal rows so the connected-component mask does
+    # not claim the whole pedestal as part of the product.
+    for row in range(int(height * 0.64), height):
+        xs = np.flatnonzero(selected[row])
+        if xs.size and (int(xs[-1]) - int(xs[0]) + 1) > int(width * 0.55):
+            selected[row, :] = False
+    selected = ndimage.binary_fill_holes(selected)
     confidence = min(0.95, max(0.15, float(area / (width * height)) * 4.0))
     return _result(selected, "saliency_component", confidence=confidence,
                    fallback_reason="sam_checkpoints_unavailable",
