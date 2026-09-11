@@ -65,6 +65,17 @@ export AIGC_MODEL_ROOT=/public/lyh/projects/CV_projects/models
   --vlm-path /public/lyh/projects/CV_projects/models/Qwen3-VL-4B-Instruct-v3
 ```
 
+如果需要让 VLM 对每个 Storyboard 事件独立复核，可在评测完成后运行（只读取已有证据帧，不重新生成视频）：
+
+```bash
+python scripts/run-v01-storyboard-review.py \
+  --run-dir runs/v0.1/sample02-v01-final2 \
+  --model qwen3_vl \
+  --model-path /public/lyh/projects/CV_projects/models/Qwen3-VL-4B-Instruct-v3
+```
+
+本次真实复核产物为 `runs/v0.1/sample02-v01-final2/storyboard/vlm_review/qwen3_vl.json`；其中每个视频的 4 个事件均保存了 VLM 的是否发生、置信度、失败原因、证据帧、延迟和显存。VLM 结果只作为独立证据，不覆盖可解释的视觉规则分数。
+
 ## 表三：使用的提示词（中英文）
 
 图像模型共用图像提示词，视频模型共用视频提示词和负面提示词；VLM 不会改写这些文本。
