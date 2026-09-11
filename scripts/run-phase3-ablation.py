@@ -1,9 +1,10 @@
-"""Generate a reproducible Phase 3 sample-02 before/after comparison.
+"""Generate a reproducible Phase 3 before/after comparison.
 
-The baseline is the already accepted Phase 2.5 FLUX.2-klein + HunyuanVideo
-1.5 result.  The improved request keeps its input, seed and output spec but
-adds a more explicit camera storyboard and enables the service's DINOv2 /
-temporal candidate ranker.  No Phase 2.5 artifact is overwritten.
+The migrated repository ships a curated FLUX.2-klein + LTXV example as the
+baseline.  The optional improved request keeps its input, seed and output
+specification while asking the HunyuanVideo-1.5 worker for an explicit camera
+storyboard and identity/temporal candidate ranking.  No curated sample is
+overwritten.
 """
 
 from __future__ import annotations
@@ -21,7 +22,7 @@ from urllib.request import Request, urlopen
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RECORD = PROJECT_ROOT / "public/uploads/phase2/qwen3_vl__flux2_klein__hunyuanvideo_15_i2v/sample-02/record.json"
+DEFAULT_RECORD = PROJECT_ROOT / "samples/example/records/record_flux.json"
 DEFAULT_OUTPUT = PROJECT_ROOT / "public/uploads/phase3/sample-02"
 DEFAULT_RUN = PROJECT_ROOT / "runs/phase3/sample-02"
 
@@ -33,6 +34,20 @@ def read_json(path: Path) -> dict[str, Any]:
 def write_json(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def resolve_media_path(value: Any) -> Path | None:
+    """Resolve a record path against this checkout without trusting old roots."""
+    if not isinstance(value, str) or not value:
+        return None
+    candidate = Path(value)
+    if candidate.is_file():
+        return candidate.resolve()
+    if not candidate.is_absolute():
+        candidate = (PROJECT_ROOT / candidate).resolve()
+        if candidate.is_file():
+            return candidate
+    return None
 
 
 def request(base: str, path: str, payload: dict[str, Any] | None = None, timeout: int = 60) -> dict[str, Any]:
@@ -155,9 +170,10 @@ def main() -> None:
     args = parser.parse_args()
 
     baseline_record = read_json(args.baseline_record)
-    baseline_path = args.baseline_record.parent / "final.mp4"
-    reference_path = PROJECT_ROOT / "public/uploads/phase2/_shared/keyframes/flux2_klein__perfume_flacon.png"
-    if not baseline_path.is_file() or not reference_path.is_file():
+    baseline_path = resolve_media_path((baseline_record.get("video") or {}).get("output"))
+    baseline_path = baseline_path or resolve_media_path(args.baseline_record.parent / "final.mp4")
+    reference_path = PROJECT_ROOT / "samples/example/keyframes/flux2_klein.png"
+    if baseline_path is None or not baseline_path.is_file() or not reference_path.is_file():
         raise FileNotFoundError(f"baseline/reference missing: {baseline_path}, {reference_path}")
     if args.evaluate_only:
         baseline_out = args.output_root / "baseline.mp4"
@@ -225,7 +241,7 @@ def main() -> None:
         "schema_version": "metacut.phase3_ablation/v1",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "sample_id": "perfume_flacon",
-        "sample_label": "sample-02 / perfume flacon",
+        "sample_label": "example / perfume flacon",
         "baseline": {
             "source": str(baseline_path),
             "output": str(baseline_out),
