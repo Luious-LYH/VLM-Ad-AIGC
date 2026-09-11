@@ -355,14 +355,15 @@ def load_generation_records(record_root: Path) -> dict[str, dict[str, Any]]:
         if parent_name == "images":
             image_model = str(record.get("model") or "").strip()
             key = f"{image_model}__{sample_id}"
-            bucket = pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}, "videos": {}})
+            bucket = pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}, "videos": {}, "video_paths": {}})
             bucket["image"] = record
         else:
             image_model = str(record.get("image_model") or "").strip()
             video_model = str(record.get("model") or "").strip()
             key = f"{image_model}__{sample_id}"
-            bucket = pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}, "videos": {}})
+            bucket = pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}, "videos": {}, "video_paths": {}})
             bucket.setdefault("videos", {})[video_model] = record
+            bucket.setdefault("video_paths", {})[video_model] = str(path.resolve())
             bucket["path"] = str(path.resolve())
     for key, value in pending.items():
         image = value.get("image", {})
@@ -373,8 +374,13 @@ def load_generation_records(record_root: Path) -> dict[str, dict[str, Any]]:
         for video_model, video in value.get("videos", {}).items():
             if not video_model or not isinstance(video, dict):
                 continue
-            record = {"sample_id": sample_id, "image": image, "video": video}
-            entry = {"path": value["path"], "record": record}
+            record = {
+                "sample_id": sample_id,
+                "status": "succeeded" if image.get("status") == "succeeded" and video.get("status") == "succeeded" else "failed",
+                "image": image,
+                "video": video,
+            }
+            entry = {"path": value.get("video_paths", {}).get(video_model, value["path"]), "record": record}
             indexed[f"{image_model}__{video_model}"] = entry
             if sample_id:
                 indexed[f"{image_model}__{video_model}__{sample_id}"] = entry
