@@ -1,0 +1,27 @@
+{
+  "schema_version": "v01_evaluation_config/v1",
+  "description": "Reproducible v0.1 mask, tracking, metric and event-level storyboard evaluation.",
+  "mask_policy": {
+    "prefer_alpha": true,
+    "preferred_models": ["sam3.1", "groundingdino+sam2"],
+    "validated_fallback": "saliency_component",
+    "neutral_background_rgb": [128, 128, 128]
+  },
+  "video_sampling": {"max_samples": 16, "strategy": "uniform"},
+  "storyboard": {
+    "duration_seconds": 4.0417,
+    "events": [
+      {"id": "event_01", "start_s": 0.0, "end_s": 0.8, "camera_motion": "macro_push_in"},
+      {"id": "event_02", "start_s": 0.8, "end_s": 2.1, "camera_motion": "orbit"},
+      {"id": "event_03", "start_s": 2.1, "end_s": 3.2, "camera_motion": "lighting_sweep"},
+      {"id": "event_04", "start_s": 3.2, "end_s": 4.0417, "camera_motion": "hero_hold"}
+    ],
+    "weights": {"event_completion": 0.45, "time_and_order": 0.25, "visual_evidence": 0.20, "continuity": 0.10}
+  },
+  "metrics": {
+    "dino_video_samples": ["mean", "min", "p10", "std"],
+    "text_match": ["clip_text_image", "clip_text_video"],
+    "temporal": ["flicker", "motion_smoothness", "dynamic_degree"],
+    "engineering": ["frame_count", "fps", "width", "height", "latency_ms", "peak_vram_mb", "failure_rate"]
+  }
+}

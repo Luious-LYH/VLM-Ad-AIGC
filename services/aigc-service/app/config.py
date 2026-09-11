@@ -86,6 +86,9 @@ class Settings:
     enable_sequential_cpu_offload: bool = _bool("AIGC_ENABLE_SEQUENTIAL_CPU_OFFLOAD", False)
     inference_steps_image: int = int(os.getenv("AIGC_IMAGE_STEPS", "20"))
     inference_steps_video: int = int(os.getenv("AIGC_VIDEO_STEPS", "8"))
+    # Never silently replace a requested model.  A fallback is allowed only
+    # when an operator explicitly opts in and is then written to the result.
+    allow_explicit_fallback: bool = _bool("AIGC_ALLOW_EXPLICIT_FALLBACK", False)
 
     def __post_init__(self) -> None:
         if self.backend not in {"fake", "local"}:

@@ -803,7 +803,7 @@ class LocalBackend(AigcBackend):
                 try:
                     return self._generate_image(payload, run)
                 except BackendUnavailable as error:
-                    if payload.get("model") != "flux2_klein":
+                    if not self.cfg.allow_explicit_fallback or payload.get("model") != "flux2_klein":
                         raise
                     fallback_run = self._run(self.cfg.image_model, "local-pinned-at-deploy", payload.get("seed"), time.perf_counter())
                     fallback = self._generate_image({**payload, "model": "sdxl_ip_adapter"}, fallback_run)
@@ -814,7 +814,7 @@ class LocalBackend(AigcBackend):
                 try:
                     return self._generate_video(payload, run)
                 except BackendUnavailable as error:
-                    if payload.get("model") != "wan22_ti2v_5b":
+                    if not self.cfg.allow_explicit_fallback or payload.get("model") != "wan22_ti2v_5b":
                         raise
                     fallback_run = self._run(self.cfg.video_model, "local-pinned-at-deploy", payload.get("seed"), time.perf_counter())
                     fallback = self._generate_video({**payload, "model": "ltxv_2b"}, fallback_run)

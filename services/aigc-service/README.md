@@ -6,6 +6,9 @@ state, provenance, idempotency, and security without CUDA. `AIGC_BACKEND=local`
 uses lazy imports and staged local weights for Qwen3-VL, SDXL + IP-Adapter,
 FLUX.2-klein, LTXV, Wan2.2 and HunyuanVideo-1.5. An unavailable experimental backend fails its
 own job with an actionable message; it never silently calls a paid API.
+Model-to-model fallback is disabled by default; set `AIGC_ALLOW_EXPLICIT_FALLBACK=true`
+only for a documented fallback run, whose response records the requested and
+actual model IDs plus the fallback reason.
 
 ## Quick start
 
