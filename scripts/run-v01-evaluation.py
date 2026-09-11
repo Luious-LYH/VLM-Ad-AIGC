@@ -620,6 +620,14 @@ def main() -> None:
         item = {
             "schema_version": "evaluation/v1", "video_id": video_id, "video_path": str(video_path),
             "video_sha256": sha256(video_path), "keyframe_path": str(keyframe_path),
+            "understanding": {
+                "model": product_record.get("model"),
+                "status": product_record.get("status", "unavailable"),
+                "json_schema_pass": (product_record.get("metrics") or {}).get("json_schema_pass"),
+                "attribute_recognition": (product_record.get("metrics") or {}).get("attribute_recognition"),
+                "ocr_accuracy": (product_record.get("metrics") or {}).get("ocr_accuracy"),
+                "ocr_protocol": (product_record.get("metrics") or {}).get("ocr_protocol"),
+            },
             "tracking": tracking, "segmentation": {"input": input_mask_meta, "keyframe": keyframe_meta},
             "segmentation_success": {
                 "status": "succeeded" if overall_segmentation_success else "unavailable",
