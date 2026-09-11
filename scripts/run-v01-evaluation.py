@@ -451,7 +451,11 @@ def main() -> None:
         image_clip = embedder.cosine(text_vector, embedder.clip_image_embedding(keyframe_image, keyframe_seg.mask))
         video_clip_values = [embedder.cosine(text_vector, embedder.clip_image_embedding(frame, mask)) for frame, mask in zip(sampled_frames, sampled_masks)]
         video_clip_values = [float(value) for value in video_clip_values if value is not None]
-        storyboard_result = evaluate_storyboard(sampled_frames, sampled_masks, probe.get("fps", 24.0), storyboard["events"], evidence_dir / "storyboard")
+        sample_times = [float(index) / max(float(probe.get("fps", 24.0)), 1.0) for index in source_indices]
+        storyboard_result = evaluate_storyboard(
+            sampled_frames, sampled_masks, probe.get("fps", 24.0), storyboard["events"],
+            evidence_dir / "storyboard", frame_times=sample_times,
+        )
         temporal = temporal_metrics(sampled_frames, sampled_masks, {**probe, "sampled_frame_count": len(sampled_frames)})
         item = {
             "schema_version": "evaluation/v1", "video_id": video_id, "video_path": str(video_path),

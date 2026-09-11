@@ -26,7 +26,7 @@ def test_storyboard_returns_event_rows_and_evidence(tmp_path):
         {"id": "event_01", "start_s": 0.0, "end_s": 0.5, "camera_motion": "macro_push_in"},
         {"id": "event_02", "start_s": 0.5, "end_s": 1.0, "camera_motion": "orbit"},
     ]
-    result = evaluate_storyboard(frames, masks, 16.0, events, tmp_path)
+    result = evaluate_storyboard(frames, masks, 16.0, events, tmp_path, frame_times=[i / 16.0 for i in range(len(frames))])
     assert result["status"] == "succeeded"
     assert len(result["events"]) == 2
     assert result["events"][0]["evidence_frames"]

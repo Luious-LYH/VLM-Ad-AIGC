@@ -50,10 +50,14 @@ def _evidence(event_id: str, indices: list[int], frames: list[Image.Image], evid
 
 def evaluate_storyboard(frames: list[Image.Image], masks: list[np.ndarray | None], fps: float,
                         events: list[dict[str, Any]], evidence_dir: Path,
-                        vlm_review: dict[str, Any] | None = None) -> dict[str, Any]:
+                        vlm_review: dict[str, Any] | None = None,
+                        frame_times: list[float] | None = None) -> dict[str, Any]:
     if not frames or len(frames) != len(masks):
         return {"status": "unavailable", "reason": "empty_or_mismatched_frames", "events": []}
-    timestamps = np.arange(len(frames), dtype=np.float32) / max(float(fps), 1.0)
+    if frame_times is not None and len(frame_times) == len(frames):
+        timestamps = np.asarray(frame_times, dtype=np.float32)
+    else:
+        timestamps = np.arange(len(frames), dtype=np.float32) / max(float(fps), 1.0)
     areas, centres, brightness = _frame_metrics(frames, masks)
     event_rows: list[dict[str, Any]] = []
     previous_end = -math.inf
