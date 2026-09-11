@@ -34,6 +34,12 @@ parser.add_argument("--skip-vlm", action="store_true")
 parser.add_argument("--skip-input-generation", action="store_true")
 parser.add_argument("--skip-existing", action="store_true")
 parser.add_argument("--prepare-only", action="store_true", help="Only materialize the three stable input images")
+parser.add_argument("--only-image-model", default=None,
+                    help="Optional filter for a reproducibility run (for example flux2_klein)")
+parser.add_argument("--only-video-model", default=None,
+                    help="Optional filter for a reproducibility run (for example wan22_ti2v_5b)")
+parser.add_argument("--only-sample", default=None,
+                    help="Optional sample id filter; keeps the default matrix unchanged when omitted")
 args = parser.parse_args()
 
 
@@ -126,6 +132,14 @@ if config_document.get("base_config"):
         config["matrix"]["video"] = [*config["matrix"]["video"], extra_video]
 else:
     config = config_document
+if args.only_image_model is not None:
+    config["matrix"]["image"] = [item for item in config["matrix"]["image"] if item["id"] == args.only_image_model]
+if args.only_video_model is not None:
+    config["matrix"]["video"] = [item for item in config["matrix"]["video"] if item["id"] == args.only_video_model]
+if args.only_sample is not None:
+    config["samples"] = [item for item in config["samples"] if item["id"] == args.only_sample]
+if not config["matrix"]["image"] or not config["matrix"]["video"] or not config["samples"]:
+    raise ValueError("model/sample filter removed every item from the comparison matrix")
 args.output_root.mkdir(parents=True, exist_ok=True)
 args.run_root.mkdir(parents=True, exist_ok=True)
 shared_root = args.output_root / "_shared"
