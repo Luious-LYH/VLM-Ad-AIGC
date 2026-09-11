@@ -1,0 +1,9 @@
+{
+  "schema_version": "metacut.phase25_config/v1",
+  "description": "Phase 2.5: Phase-2 2x2 matrix plus HunyuanVideo-1.5 dual-GPU I2V.",
+  "base_config": "phase2-comparison.json",
+  "append_video": {
+    "id": "hunyuanvideo_15_i2v",
+    "label": "HunyuanVideo-1.5 480P I2V step-distilled（双3090）"
+  }
+}

@@ -1,0 +1,25 @@
+# Model weights and local runtimes are intentionally kept outside Git.
+models/
+artifacts/
+third_party/
+ltx-runtime/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+.env.local
+
+# Ephemeral service outputs and experiment scratch space.
+public/uploads/
+runs/
+logs/
+*.log
+results/
+
+# Keep the curated example and its four reviewed videos under samples/.
+!samples/
+!samples/example/
+!samples/example/**

@@ -1,0 +1,167 @@
+{
+  "sample_id": "perfume_flacon",
+  "input": {
+    "path": "input.png",
+    "ground_truth": {
+      "category": "perfume",
+      "form_factor": "single rectangular glass flacon",
+      "colors": [
+        "amber",
+        "champagne gold"
+      ],
+      "material": "glass and metal",
+      "finish": "glossy glass with brushed metal",
+      "closure": "fitted cap",
+      "container_count": 1,
+      "ocr_text": []
+    }
+  },
+  "prompts": {
+    "image": "Premium luxury beauty advertising keyframe. Use the reference image as the only source of product identity. Preserve the exact silhouette, number of containers, cap or lid geometry, proportions, color palette, material, finish, and label placement. Place the product as the hero object in a clean editorial studio set: warm ivory-to-champagne gradient background, travertine or frosted glass surface, soft diffused key light from upper left, controlled rim light, realistic contact shadow, physically plausible reflections, subtle depth of field, crisp edges, high-end cosmetic campaign photography, 8k detail, vertical composition, centered product occupying 60 percent of the frame. Keep the packaging coherent and manufacturable. Do not add another product or alter the product family. Preserve any printed marks as abstract marks unless they are clearly legible in the reference; never hallucinate a new logo or brand name.\nReference product class: single rectangular glass flacon. Preserve the reference composition and product family.",
+    "video": "Create a polished vertical 4-second luxury beauty commercial from the supplied keyframe. One continuous shot, no cuts. Keep the exact product identity, silhouette, materials, colors, cap geometry, label placement, and number of containers stable in every frame. Use a clear storyboard: 0.0-0.8s an elegant macro push-in revealing surface texture and highlights; 0.8-2.1s a slow 90-degree clockwise camera orbit with smooth parallax while the product stays anchored; 2.1-3.2s a restrained product-specific micro-action described below, with a controlled specular highlight or liquid glint; 3.2-4.04s a calm hero hold and gentle settle on the final composition. Motion should be physically plausible, cinematic and premium: smooth optical-flow motion, stable horizon, soft studio lighting, realistic shadows and reflections, shallow depth of field, no abrupt acceleration. The product must remain a single coherent object; do not morph, duplicate, melt, stretch, or replace it. No hands, people, text overlays, watermarks, or scene cuts.\nProduct-specific micro-action: a warm caustic light sweeps through the amber glass while the gold cap catches a precise rim highlight.",
+    "negative": "warped packaging, melted product, duplicated product, extra container, changing silhouette, cap mutation, broken geometry, flickering label, invented readable text, logo hallucination, temporal jitter, frame flicker, camera shake, rolling shutter, hard cut, jump cut, abrupt zoom, floating object, impossible reflection, deformed liquid, low resolution, blur, noise, watermark, subtitle, border"
+  },
+  "spec": {
+    "seed": 20260909,
+    "image": {
+      "width": 768,
+      "height": 1024,
+      "num_candidates": 1,
+      "steps": 28
+    },
+    "video": {
+      "width": 576,
+      "height": 768,
+      "num_frames": 97,
+      "fps": 24,
+      "duration_seconds": 4.0417
+    }
+  },
+  "vlm": {
+    "sample_id": "perfume_flacon",
+    "status": "succeeded",
+    "model": "qwen3_vl",
+    "model_path": "models/Qwen3-VL-4B-Instruct-v3",
+    "input": "samples/example/input.png",
+    "raw_text": "{\"schema_version\": \"product/v1\", \"product_name\": null, \"category\": \"Perfume\", \"visual_description\": \"A glass perfume bottle with amber liquid, featuring a brushed gold cap and a pump dispenser, placed on a circular, porous stone base against a beige background.\", \"usage_method\": \"Dispense from pump dispenser\", \"core_selling_points\": [\"Modern design with brushed gold cap\", \"Amber glass container\", \"Stone base for elegant display\"], \"target_audience\": \"Adults seeking luxury fragrance products\", \"usage_scene\": \"Home display, retail showcase, personal vanity\", \"pain_point_gain_point\": [\"Elevates product presentation\", \"Modern aesthetic appeals to design-conscious consumers\", \"Premium feel through material contrast\"], \"ingredients_material\": null, \"spec_size\": null, \"attributes\": {\"form_factor\": \"Bottle with pump dispenser\", \"colors\": [\"amber\", \"gold\", \"beige\"], \"material\": [\"glass\", \"metal\", \"stone\"], \"finish\": [\"brushed\", \"matte\", \"textured\"], \"closure\": \"pump dispenser with gold cap\", \"container_count\": 1}, \"ocr_text\": [], \"ocr_confidence\": 0}",
+    "prediction": {
+      "schema_version": "product/v1",
+      "product_name": null,
+      "category": "Perfume",
+      "visual_description": "A glass perfume bottle with amber liquid, featuring a brushed gold cap and a pump dispenser, placed on a circular, porous stone base against a beige background.",
+      "usage_method": "Dispense from pump dispenser",
+      "core_selling_points": [
+        "Modern design with brushed gold cap",
+        "Amber glass container",
+        "Stone base for elegant display"
+      ],
+      "target_audience": "Adults seeking luxury fragrance products",
+      "usage_scene": "Home display, retail showcase, personal vanity",
+      "pain_point_gain_point": [
+        "Elevates product presentation",
+        "Modern aesthetic appeals to design-conscious consumers",
+        "Premium feel through material contrast"
+      ],
+      "ingredients_material": null,
+      "spec_size": null,
+      "attributes": {
+        "form_factor": "Bottle with pump dispenser",
+        "colors": [
+          "amber",
+          "gold",
+          "beige"
+        ],
+        "material": [
+          "glass",
+          "metal",
+          "stone"
+        ],
+        "finish": [
+          "brushed",
+          "matte",
+          "textured"
+        ],
+        "closure": "pump dispenser with gold cap",
+        "container_count": 1
+      },
+      "ocr_text": [],
+      "ocr_confidence": 0
+    },
+    "parse_error": null,
+    "metrics": {
+      "json_schema_pass": true,
+      "attribute_recognition": 0.5527,
+      "ocr_accuracy": 1.0,
+      "ocr_protocol": "negative_text_control"
+    },
+    "latency_ms": 12706,
+    "peak_vram_mb": 8789
+  },
+  "image": {
+    "status": "succeeded",
+    "model": "sdxl_ip_adapter",
+    "sample_id": "perfume_flacon",
+    "input": "samples/example/input.png",
+    "output": "samples/example/keyframes/sdxl_ip_adapter.png",
+    "request": {
+      "model": "sdxl_ip_adapter",
+      "prompt": "Premium luxury beauty advertising keyframe. Use the reference image as the only source of product identity. Preserve the exact silhouette, number of containers, cap or lid geometry, proportions, color palette, material, finish, and label placement. Place the product as the hero object in a clean editorial studio set: warm ivory-to-champagne gradient background, travertine or frosted glass surface, soft diffused key light from upper left, controlled rim light, realistic contact shadow, physically plausible reflections, subtle depth of field, crisp edges, high-end cosmetic campaign photography, 8k detail, vertical composition, centered product occupying 60 percent of the frame. Keep the packaging coherent and manufacturable. Do not add another product or alter the product family. Preserve any printed marks as abstract marks unless they are clearly legible in the reference; never hallucinate a new logo or brand name.\nReference product class: single rectangular glass flacon. Preserve the reference composition and product family.",
+      "negative_prompt": "warped packaging, melted product, duplicated product, extra container, changing silhouette, cap mutation, broken geometry, flickering label, invented readable text, logo hallucination, temporal jitter, frame flicker, camera shake, rolling shutter, hard cut, jump cut, abrupt zoom, floating object, impossible reflection, deformed liquid, low resolution, blur, noise, watermark, subtitle, border",
+      "reference_images": [
+        "samples/example/input.png"
+      ],
+      "width": 768,
+      "height": 1024,
+      "num_candidates": 1,
+      "seed": 20260909,
+      "steps": 28
+    },
+    "result": {
+      "generated_images": [
+        "/uploads/local-aigc/sdxl_ip_adapter-0-67fae00b2a2c.png"
+      ],
+      "selected_image": "/uploads/local-aigc/sdxl_ip_adapter-0-67fae00b2a2c.png",
+      "candidate_scores": [
+        {
+          "index": 0,
+          "score": 0.0,
+          "status": "unranked"
+        }
+      ],
+      "model_id": "stabilityai/stable-diffusion-xl-base-1.0",
+      "model_revision": "local-pinned-at-deploy",
+      "seed": 20260909,
+      "latency_ms": 6559,
+      "peak_vram_mb": 14047
+    }
+  },
+  "video": {
+    "status": "succeeded",
+    "model": "ltxv_2b",
+    "image_model": "sdxl_ip_adapter",
+    "sample_id": "perfume_flacon",
+    "input": "samples/example/keyframes/sdxl_ip_adapter.png",
+    "output": "samples/example/videos/sdxl_ip_adapter__ltxv_2b.mp4",
+    "request": {
+      "model": "ltxv_2b",
+      "prompt": "Create a polished vertical 4-second luxury beauty commercial from the supplied keyframe. One continuous shot, no cuts. Keep the exact product identity, silhouette, materials, colors, cap geometry, label placement, and number of containers stable in every frame. Use a clear storyboard: 0.0-0.8s an elegant macro push-in revealing surface texture and highlights; 0.8-2.1s a slow 90-degree clockwise camera orbit with smooth parallax while the product stays anchored; 2.1-3.2s a restrained product-specific micro-action described below, with a controlled specular highlight or liquid glint; 3.2-4.04s a calm hero hold and gentle settle on the final composition. Motion should be physically plausible, cinematic and premium: smooth optical-flow motion, stable horizon, soft studio lighting, realistic shadows and reflections, shallow depth of field, no abrupt acceleration. The product must remain a single coherent object; do not morph, duplicate, melt, stretch, or replace it. No hands, people, text overlays, watermarks, or scene cuts.\nProduct-specific micro-action: a warm caustic light sweeps through the amber glass while the gold cap catches a precise rim highlight.",
+      "negative_prompt": "warped packaging, melted product, duplicated product, extra container, changing silhouette, cap mutation, broken geometry, flickering label, invented readable text, logo hallucination, temporal jitter, frame flicker, camera shake, rolling shutter, hard cut, jump cut, abrupt zoom, floating object, impossible reflection, deformed liquid, low resolution, blur, noise, watermark, subtitle, border",
+      "input_image": "samples/example/keyframes/sdxl_ip_adapter.png",
+      "width": 576,
+      "height": 768,
+      "num_frames": 97,
+      "fps": 24,
+      "seed": 20260909
+    },
+    "result": {
+      "video_url": "/uploads/local-aigc/ltxv-run_3beb44c2dae345c48ed1/video_output_0_create-a-polished-vertical-second_20260909_768x576x97_0.mp4",
+      "model_id": "Lightricks/LTX-Video:ltxv-2b-0.9.8-distilled",
+      "model_revision": "official-0.9.8-distilled",
+      "seed": 20260909,
+      "latency_ms": 203256,
+      "peak_vram_mb": 15534,
+      "runtime": "official-isolated"
+    }
+  },
+  "status": "succeeded"
+}
