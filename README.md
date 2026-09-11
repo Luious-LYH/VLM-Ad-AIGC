@@ -34,7 +34,36 @@ VLM 仅负责从商品图提取商品类别、颜色、材质、包装结构和 
 | 7 | InternVL3.5-8B-HF | FLUX.2-klein-4B | LTXV-2B distilled | [查看视频](samples/example/videos/flux2_klein__ltxv_2b.mp4) | 0.8852 | 0.8947 | 0.5936 |
 | 8 | InternVL3.5-8B-HF | FLUX.2-klein-4B | Wan2.2 TI2V-5B | [查看视频](samples/example/videos/flux2_klein__wan22_ti2v_5b.mp4) | 0.9862 | 0.8472 | 0.5244 |
 
-指标说明：商品相似度是视频首帧、中间帧和末帧与商品原图的 masked DINO embedding 余弦相似度均值；时序稳定性和 Storyboard 是基于帧间变化与预设分镜的启发式分数，不等同于人工审美评分。
+指标说明：商品相似度是输入商品前景与视频中均匀采样的最多 16 帧商品前景之间的 masked DINOv2 embedding 余弦相似度统计（mean/min/p10/std）；时序稳定性和 Storyboard 是基于帧间变化与预设分镜的可解释启发式分数，不等同于人工审美评分。VLM 不参与扩散生成，所以两种 VLM 行的 MP4 与离线视频指标相同，这是有意的去重设计。
+
+## v0.1 实际运行证明
+
+下面是服务器 `172.21.141.89` 上对上述四个唯一 MP4 的真实评测结果。每个视频解码为 97 帧、24 FPS、576×768，并均匀采样 16 帧；输入商品分割在当前部署中使用 `saliency_component`（SAM3.1 / GroundingDINO+SAM2 权重未部署，manifest 会明确记录这一回退）。完整 JSON、mask、overlay、证据帧和 Markdown 报告保存在服务器的 `runs/v0.1/sample02-mask-eval-refined/`。
+
+| 图像模型 | 视频模型 | masked DINO mean | p10 | min | std | 输入→关键帧 DINO | CLIP-I | CLIP-V | Storyboard | 时序稳定性 |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| FLUX.2-klein-4B | LTXV-2B distilled | 0.72666 | 0.58376 | 0.51566 | 0.09550 | 0.94024 | 0.28576 | 0.27429 | 0.855 | 0.5157 |
+| FLUX.2-klein-4B | Wan2.2 TI2V-5B | **0.89960** | **0.87325** | **0.81292** | **0.02585** | 0.94024 | 0.28576 | 0.29213 | 0.565 | 0.8142 |
+| SDXL 1.0 + IP-Adapter | LTXV-2B distilled | 0.48371 | 0.25524 | 0.23312 | 0.12157 | 0.65626 | 0.28681 | 0.24847 | 0.710 | 0.1034 |
+| SDXL 1.0 + IP-Adapter | Wan2.2 TI2V-5B | 0.58230 | 0.57688 | 0.19935 | 0.10346 | 0.65626 | 0.28681 | 0.28833 | 0.710 | **0.8926** |
+
+### VLM 真实运行
+
+| VLM | JSON Schema | 属性识别 | OCR | 延迟 | 峰值显存 | 服务器产物 |
+|---|---:|---:|---:|---:|---:|---|
+| Qwen3-VL-4B-Instruct | 1.0 | 0.5527 | 1.0 | 10.84 s | 8.8 GB | `runs/v0.1/sample02-qwen-eval/understanding/product.json` |
+| InternVL3.5-8B-HF | 1.0 | 0.5429 | 1.0 | 14.89 s | 17.2 GB | `runs/v0.1/sample02-internvl-eval/understanding/product.json` |
+
+可复核命令（服务器）：
+
+```bash
+export PYTHONPATH=/public/lyh/projects/CV_projects/VLM-Ad-AIGC/services/aigc-service:/public/lyh/.venvs/diffusers-040:/public/lyh/.venvs/vlm-extra
+export AIGC_MODEL_ROOT=/public/lyh/projects/CV_projects/models
+/public/lyh/.conda/envs/vlm/bin/python -u scripts/run-v01-evaluation.py \
+  --run-id sample02-qwen-eval \
+  --vlm-model qwen3_vl \
+  --vlm-path /public/lyh/projects/CV_projects/models/Qwen3-VL-4B-Instruct-v3
+```
 
 ## 表三：使用的提示词（中英文）
 
@@ -55,18 +84,18 @@ VLM 仅负责从商品图提取商品类别、颜色、材质、包装结构和 
 | JSON Schema 通过率 | `json_schema_pass` | VLM 输出 JSON | 按 `product/v1` 等 Schema 校验必需字段、类型和版本 | 越高越好 | 已有；只说明格式正确，不代表内容正确 |
 | 商品属性识别 | `attribute_recognition` | 商品类别、颜色、材质、包装结构、容器数量 | VLM 预测与样本标注逐项比较后求平均 | 越高越好 | 已有；依赖标注覆盖范围 |
 | OCR 准确率 | `ocr_accuracy` | 商品图中文字 | 有文字时计算 token/字符匹配，无文字时作为负样本控制 | 越高越好 | 已有；小字、反光包装可能识别不稳 |
-| 商品分割成功率 | `segmentation_success` | 输入图、关键帧和视频采样帧 | SAM 3.1，失败时使用本地 GroundingDINO + SAM 2.1 | 越高越好 | v0.1 新增；必须保存 mask/overlay 供人工核对 |
+| 商品分割成功率 | `segmentation_success` | 输入图、关键帧和视频采样帧 | Alpha 通道优先；当前服务器使用 border-colour distance + 形态学连通域回退，SAM3.1 / GroundingDINO+SAM2 为显式可插拔适配位 | 越高越好 | v0.1 新增；必须保存 mask/overlay 供人工核对，不能把回退结果称为 SAM |
 | 商品出现率 | `mask_presence_rate` | 视频采样帧 | 成功检测并跟踪到商品的帧数占比 | 越高越好 | v0.1 新增；分割误检会影响结果 |
 | 跟踪中断次数 | `tracking_break_count` | 视频商品 mask 序列 | 统计商品 mask 消失后重新出现或跟踪重启次数 | 越低越好 | v0.1 新增；遮挡与真实离场需结合 Storyboard 判断 |
-| 关键帧商品相似度 | `masked_dino_keyframe_similarity` | 输入商品前景与生成关键帧商品前景 | 对真实 mask 裁剪后的商品使用 DINOv2 embedding 余弦相似度 | 越高越好 | 当前为中心椭圆近似；v0.1 改为真实 mask |
-| 视频商品一致性 | `masked_dino_mean`、`p10`、`min`、`std` | 输入商品前景与 12–16 个均匀视频采样帧 | 对 mask 内商品区域提取 DINOv2 特征，报告均值、较差帧和波动 | mean/p10/min 越高越好，std 越低越好 | 当前只采首中尾且使用中心椭圆；v0.1 改进 |
+| 关键帧商品相似度 | `masked_dino_keyframe_similarity` | 输入商品前景与生成关键帧商品前景 | 对两者真实 mask 裁剪后的商品使用 DINOv2 embedding 余弦相似度 | 越高越好 | v0.1 已实现；同时保留 mask backend 与 overlay |
+| 视频商品一致性 | `masked_dino_mean`、`p10`、`min`、`std` | 输入商品前景与最多 16 个均匀视频采样帧 | 对 mask 内商品区域提取 DINOv2 特征，报告均值、较差帧和波动 | mean/p10/min 越高越好，std 越低越好 | v0.1 已实现；旧中心椭圆仅作为诊断对照，不是主指标 |
 | 关键帧文本匹配 | `clip_text_image_match` | 商品/广告文字描述与关键帧 | CLIP 文本和图像 embedding 余弦相似度 | 越高越好 | 已有；反映语义匹配，不等于商品身份一致 |
 | 视频文本匹配 | `clip_text_video_match` | 商品/广告文字描述与视频采样帧 | CLIP 对各采样帧打分后聚合 | 越高越好 | 已有；对复杂时间动作理解有限 |
 | Storyboard 遵循度 | `storyboard_adherence`、`events[]` | 结构化 Storyboard 与视频时间段 | VLM 逐事件判断，结合时间匹配、动作证据、顺序和违规项 | 越高越好 | 当前只是运动/时长启发式；v0.1 改为事件级评测并保存证据帧 |
 | 时序闪烁 | `temporal_flicker` | 相邻视频帧 | 对齐或降采样后统计非预期亮度、颜色和纹理跳变 | 越低越好 | v0.1 规范化；快速指标不能代替人工审片 |
 | 运动平滑度 | `motion_smoothness` | 相邻帧运动轨迹 | 帧差、光流或商品中心/面积轨迹的突变程度 | 越高越好 | 当前已有简化稳定性分；v0.1 增加商品区域证据 |
 | 动态程度 | `dynamic_degree` | 整段视频 | 统计有效光流或帧间变化，区分正常运动与近似静帧 | 适中为好 | v0.1 新增；不能简单追求越大越好 |
-| 画面可用性 | `visual_quality`、`failure_tags` | 关键帧与视频 | 检查噪点、色块、模糊、边框、严重变形，并保存 VLM 判断与证据 | 越高越好 | v0.1 新增；属于自动代理结果，最终需要人工确认 |
+| 画面可用性 | `visual_quality`、`failure_tags` | 关键帧与视频 | 预留给后续噪点/色块/严重变形分类器；当前版本不伪造该分数 | 越高越好 | v0.2 候选；最终需要人工确认 |
 | 输出规格 | `frame_count`、`fps`、`width`、`height` | 最终 MP4 | 视频解码器读取真实帧数、帧率和分辨率 | 与请求一致 | 已有；只验证技术规格，不评价内容质量 |
 | 推理延迟 | `vlm_latency_ms`、`image_latency_ms`、`video_latency_ms` | 各模型调用 | 记录每阶段真实墙钟时间 | 越低越好 | 已有；需同时记录 offload 和硬件配置 |
 | 峰值显存 | `peak_vram_mb` | 各 GPU worker | CUDA 峰值显存统计 | 越低越好 | 已有部分记录；v0.1 统一到每个阶段 |
@@ -84,7 +113,7 @@ VLM 仅负责从商品图提取商品类别、颜色、材质、包装结构和 
 1. 准备本地权重目录，并通过 `AIGC_MODEL_ROOT` 指向它；权重不纳入 Git。
 2. 启动 FastAPI GPU 网关：`bash scripts/start-phase2-service.sh`。
 3. 运行示例矩阵：`python scripts/run-phase2-comparison.py --config configs/example-comparison.json`；`configs/phase2-comparison.json` 是同一可复现实例的完整 2×2×2 配置，可复制其中的 `samples` 条目加入自己的商品图。
-4. 计算指标并生成报告：`python scripts/evaluate-phase2.py`，然后运行 `python scripts/report-phase2.py`。
+4. 计算 v0.1 商品 mask、DINO/CLIP、Storyboard 和时序指标：`python scripts/run-v01-evaluation.py --run-id <run-id>`；如果需要真实商品理解，再增加 `--vlm-model qwen3_vl --vlm-path <local-checkpoint>` 或 `--vlm-model internvl3_5_8b --vlm-path <local-checkpoint>`。
 
 默认矩阵为 **2 VLM × 2 图像模型 × 2 视频模型**。VLM 负责商品 JSON 理解与评测；SDXL + IP-Adapter 或 FLUX.2-klein 负责关键帧；LTXV 或 Wan2.2 负责 I2V；DINO/CLIP 和时序启发式脚本负责离线评测。服务端的 Python 依赖、API schema 和测试位于 `services/aigc-service/`。
 
