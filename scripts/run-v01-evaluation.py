@@ -321,6 +321,11 @@ def load_generation_records(record_root: Path) -> dict[str, dict[str, Any]]:
         return indexed
     # Accept both the curated ``record_*.json`` format and the comparison
     # runner's ``images/*.json`` + ``videos/*.json`` sidecars.
+    # Sidecars are split into ``images/*.json`` and ``videos/*.json``.  The
+    # image sidecar is shared by all video backends, so first group by the
+    # canonical ``image_model + sample_id`` pair, then fan out one entry per
+    # video model.  Keeping the video records in a map avoids silently
+    # overwriting the first backend when a sample has both LTXV and Wan2.2.
     pending: dict[str, dict[str, Any]] = {}
     for path in sorted(record_root.rglob("*.json")):
         try:
@@ -348,23 +353,28 @@ def load_generation_records(record_root: Path) -> dict[str, dict[str, Any]]:
             continue
         sample_id = str(record.get("sample_id") or "").strip()
         if parent_name == "images":
-            image_model, video_model = str(record.get("model") or "").strip(), ""
+            image_model = str(record.get("model") or "").strip()
             key = f"{image_model}__{sample_id}"
-            pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}})["image"] = record
+            bucket = pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}, "videos": {}})
+            bucket["image"] = record
         else:
-            image_model, video_model = str(record.get("image_model") or "").strip(), str(record.get("model") or "").strip()
-            key = f"{image_model}__{video_model}__{sample_id}"
-            pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}})["video"] = record
+            image_model = str(record.get("image_model") or "").strip()
+            video_model = str(record.get("model") or "").strip()
+            key = f"{image_model}__{sample_id}"
+            bucket = pending.setdefault(key, {"path": str(path.resolve()), "record": {"sample_id": sample_id}, "videos": {}})
+            bucket.setdefault("videos", {})[video_model] = record
+            bucket["path"] = str(path.resolve())
     for key, value in pending.items():
-        record = value.get("record", {})
-        image_model = str(value.get("image", {}).get("model") or "")
-        video_model = str(value.get("video", {}).get("model") or "")
-        if image_model and video_model:
-            record["image"] = value["image"]
-            record["video"] = value["video"]
+        image = value.get("image", {})
+        image_model = str(image.get("model") or "") if isinstance(image, dict) else ""
+        if not image_model or not isinstance(image, dict):
+            continue
+        sample_id = str(value.get("record", {}).get("sample_id") or "")
+        for video_model, video in value.get("videos", {}).items():
+            if not video_model or not isinstance(video, dict):
+                continue
+            record = {"sample_id": sample_id, "image": image, "video": video}
             entry = {"path": value["path"], "record": record}
-            indexed[key] = entry
-            sample_id = str(record.get("sample_id") or "")
             indexed[f"{image_model}__{video_model}"] = entry
             if sample_id:
                 indexed[f"{image_model}__{video_model}__{sample_id}"] = entry
