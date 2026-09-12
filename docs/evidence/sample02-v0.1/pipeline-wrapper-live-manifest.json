@@ -1,0 +1,222 @@
+{
+  "schema_version": "run_manifest/v1",
+  "run_id": "pipeline-wrapper-live",
+  "created_at": "2026-09-12T06:29:04.759750+00:00",
+  "finished_at": "2026-09-12T06:29:04.759779+00:00",
+  "input": {
+    "path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/samples/sample-02/input.png",
+    "copied_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/input/input.png",
+    "sha256": "affa3f2d51e49a57c4c021b3f9ea0802239e3ef4e1ee77d835428855711a72ee",
+    "mask": {
+      "schema_version": "segmentation/v1",
+      "backend": "saliency_component",
+      "status": "succeeded",
+      "confidence": 0.5470123291015625,
+      "bbox": [
+        213,
+        205,
+        559,
+        759
+      ],
+      "area_fraction": 0.15068689982096353,
+      "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+      "attempted_backends": [
+        "alpha",
+        "sam3.1",
+        "groundingdino+sam2",
+        "saliency_component"
+      ],
+      "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/input/input.mask.png",
+      "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/input/input.foreground.png",
+      "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/input/input.overlay.png"
+    }
+  },
+  "prompt": {
+    "user_prompt": "premium_amber_perfume_launch",
+    "generation_prompt": "Create a polished vertical 4-second luxury beauty commercial from the supplied keyframe. One continuous shot, no cuts. Keep the exact product identity, silhouette, materials, colors, cap geometry, label placement, and number of containers stable in every frame. Use a clear storyboard: 0.0-0.8s an elegant macro push-in revealing surface texture and highlights; 0.8-2.1s a slow 90-degree clockwise camera orbit with smooth parallax while the product stays anchored; 2.1-3.2s a restrained product-specific micro-action described below, with a controlled specular highlight or liquid glint; 3.2-4.04s a calm hero hold and gentle settle on the final composition. Motion should be physically plausible, cinematic and premium: smooth optical-flow motion, stable horizon, soft studio lighting, realistic shadows and reflections, shallow depth of field, no abrupt acceleration. The product must remain a single coherent object; do not morph, duplicate, melt, stretch, or replace it. No hands, people, text overlays, watermarks, or scene cuts.\nCampaign requirement: premium_amber_perfume_launch",
+    "sha256": "0000e41597777c2554e8243525d8af311d08a10364c7e5643c98c5e9402d42d9",
+    "rewrite_enabled": false
+  },
+  "models": {
+    "vlm": "none",
+    "dino": "/public/lyh/projects/CV_projects/models/dinov2-small",
+    "clip": "/public/lyh/projects/CV_projects/models/clip-vit-base-patch32",
+    "image": [
+      "sdxl_ip_adapter",
+      "flux2_klein"
+    ],
+    "video": [
+      "ltxv_2b",
+      "wan22_ti2v_5b"
+    ]
+  },
+  "config": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/pipeline-config.json",
+  "evaluation_config": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/configs/v0.1/evaluation.json",
+  "record_root": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/generation",
+  "generation_records": [
+    "flux2_klein__wan22_ti2v_5b",
+    "flux2_klein__wan22_ti2v_5b__pipeline_product"
+  ],
+  "model_registry": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/configs/v0.1/model-registry.json",
+  "registry_models": {
+    "vlm": {
+      "qwen3_vl": {
+        "label": "Qwen3-VL-4B-Instruct",
+        "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+        "revision": "local-pinned-at-deploy",
+        "path_env": "AIGC_VLM_PATH",
+        "capabilities": [
+          "product_json",
+          "prompt_polish",
+          "storyboard_review"
+        ],
+        "license_note": "Use the upstream checkpoint terms; no paid API is required."
+      },
+      "internvl3_5_8b": {
+        "label": "InternVL3.5-8B-HF",
+        "model_id": "OpenGVLab/InternVL3_5-8B-HF",
+        "revision": "local-pinned-at-deploy",
+        "path_env": "AIGC_INTERNVL_PATH",
+        "capabilities": [
+          "product_json",
+          "prompt_polish",
+          "storyboard_review"
+        ],
+        "license_note": "Use the upstream checkpoint terms; no paid API is required."
+      }
+    },
+    "image": {
+      "sdxl_ip_adapter": {
+        "label": "SDXL 1.0 + IP-Adapter",
+        "model_id": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "local-pinned-at-deploy",
+        "path_env": "AIGC_SDXL_PATH",
+        "capabilities": [
+          "reference_conditioned_keyframe"
+        ]
+      },
+      "flux2_klein": {
+        "label": "FLUX.2-klein-4B",
+        "model_id": "black-forest-labs/FLUX.2-klein-4B",
+        "revision": "local-pinned-at-deploy",
+        "path_env": "AIGC_FLUX2_PATH",
+        "capabilities": [
+          "reference_conditioned_keyframe"
+        ]
+      }
+    },
+    "video": {
+      "ltxv_2b": {
+        "label": "LTXV-2B distilled",
+        "model_id": "Lightricks/LTX-Video:ltxv-2b-0.9.8-distilled",
+        "revision": "official-0.9.8-distilled",
+        "path_env": "AIGC_LTXV_PATH",
+        "capabilities": [
+          "image_to_video",
+          "isolated_runtime"
+        ]
+      },
+      "wan22_ti2v_5b": {
+        "label": "Wan2.2 TI2V-5B",
+        "model_id": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+        "revision": "local-pinned-at-deploy",
+        "path_env": "AIGC_WAN22_PATH",
+        "capabilities": [
+          "text_image_to_video",
+          "cpu_offload"
+        ]
+      }
+    },
+    "evaluation": {
+      "dinov2": {
+        "label": "DINOv2",
+        "model_id": "facebook/dinov2-small",
+        "revision": "local-pinned-at-deploy",
+        "path_env": "AIGC_DINO_PATH",
+        "capabilities": [
+          "masked_product_embedding"
+        ]
+      },
+      "clip": {
+        "label": "CLIP ViT-B/32",
+        "model_id": "openai/clip-vit-base-patch32",
+        "revision": "local-pinned-at-deploy",
+        "path_env": "AIGC_CLIP_PATH",
+        "capabilities": [
+          "text_image_matching"
+        ]
+      }
+    },
+    "segmentation": {
+      "sam3_1": {
+        "label": "SAM 3.1",
+        "model_id": "sam3.1",
+        "revision": "operator-supplied",
+        "path_env": "AIGC_SAM31_PATH",
+        "capabilities": [
+          "text_or_exemplar_segmentation"
+        ],
+        "status": "optional_adapter_not_validated_on_server"
+      },
+      "groundingdino_sam2": {
+        "label": "GroundingDINO + SAM 2.1",
+        "model_id": "groundingdino+sam2",
+        "revision": "operator-supplied",
+        "path_env": "AIGC_SAM2_PATH,AIGC_GROUNDINGDINO_PATH",
+        "capabilities": [
+          "text_box_segmentation"
+        ],
+        "status": "optional_adapter_not_validated_on_server"
+      },
+      "saliency_component": {
+        "label": "Local saliency component fallback",
+        "model_id": "border_colour_distance+connected_components",
+        "revision": "v0.1",
+        "path_env": null,
+        "capabilities": [
+          "deterministic_local_fallback"
+        ],
+        "status": "validated_on_server"
+      }
+    }
+  },
+  "seed": 20260909,
+  "hardware": {
+    "nvidia_smi": [
+      "0, NVIDIA GeForce RTX 3090, 3 MiB, 24576 MiB, 0 %",
+      "1, NVIDIA GeForce RTX 3090, 364 MiB, 24576 MiB, 0 %",
+      "2, NVIDIA GeForce RTX 3090, 11458 MiB, 24576 MiB, 0 %"
+    ]
+  },
+  "embedding_model_errors": {},
+  "segmentation_policy": {
+    "schema_version": "segmentation/v1",
+    "backend": "saliency_component",
+    "status": "succeeded",
+    "confidence": 0.5470123291015625,
+    "bbox": [
+      213,
+      205,
+      559,
+      759
+    ],
+    "area_fraction": 0.15068689982096353,
+    "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+    "attempted_backends": [
+      "alpha",
+      "sam3.1",
+      "groundingdino+sam2",
+      "saliency_component"
+    ]
+  },
+  "media": [
+    {
+      "video_id": "flux2_klein__wan22_ti2v_5b__pipeline_product",
+      "video": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-live/_shared/videos/flux2_klein__wan22_ti2v_5b__pipeline_product.mp4",
+      "keyframe": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-live/_shared/keyframes/flux2_klein__pipeline_product.png",
+      "mask_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/videos/flux2_klein__wan22_ti2v_5b__pipeline_product"
+    }
+  ],
+  "metrics_count": 1,
+  "elapsed_ms": 23208
+}

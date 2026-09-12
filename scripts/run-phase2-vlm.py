@@ -77,6 +77,15 @@ def schema_and_metrics(prediction: dict[str, Any] | None, ground_truth: dict[str
     valid = valid and isinstance(prediction.get("core_selling_points"), list)
     valid = valid and isinstance(prediction.get("ocr_text"), list)
     valid = valid and isinstance(attrs.get("colors"), list)
+    # A newly supplied product image has no reviewed attribute labels yet.
+    # Keep the schema result, but never manufacture an "accuracy" number.
+    if ground_truth.get("evaluation_label_source") == "unavailable":
+        return {
+            "json_schema_pass": bool(valid),
+            "attribute_recognition": None,
+            "ocr_accuracy": None,
+            "ocr_protocol": "unavailable_manual_labels_required",
+        }
     fields = ("category", "form_factor", "colors", "material", "finish", "closure", "container_count")
     scores = []
     for field in fields:

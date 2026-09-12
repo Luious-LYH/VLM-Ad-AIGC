@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-12",
+  "auditor": "gpt-5.6-terra-high-fallback",
+  "preferred_reviewer_status": "unavailable_http_503",
+  "overall_verdict": "warn",
+  "integrity_status": "warn",
+  "checks": {
+    "gt_provenance": {
+      "status": "warn",
+      "details": "Manual labels and input/reference preservation proxies; no candidate video is used as hidden ground truth."
+    },
+    "score_normalization": {
+      "status": "pass",
+      "details": "L2-normalized embeddings and fixed heuristic thresholds; no self-max normalization."
+    },
+    "result_existence": {
+      "status": "warn",
+      "details": "README v0.1 claims are backed by docs/evidence/sample02-v0.1; full runs remain server-only and historical ignored reports are not shipped claims."
+    },
+    "dead_code": {
+      "status": "warn",
+      "details": "Core metrics are called; save_evidence helper is redundant and retained for compatibility."
+    },
+    "scope": {
+      "status": "warn",
+      "details": "One product and one seed; four unique videos plus two VLM understanding runs."
+    },
+    "eval_type": {
+      "vlm": "synthetic_proxy_manual_label",
+      "dino": "self_supervised_proxy",
+      "clip": "synthetic_proxy",
+      "temporal": "self_supervised_proxy",
+      "storyboard": "synthetic_proxy",
+      "human_review": "human_eval_required"
+    }
+  },
+  "claims": [
+    {"id": "C1", "claim": "Four unique image/video combinations were generated and evaluated", "impact": "supported"},
+    {"id": "C2", "claim": "VLM product JSON/schema/OCR smoke tests ran on sample-02", "impact": "supported"},
+    {"id": "C3", "claim": "Proxy metric values are a calibrated human quality benchmark", "impact": "unsupported"},
+    {"id": "C4", "claim": "A model is generally superior or robust across datasets", "impact": "unsupported"}
+  ]
+}

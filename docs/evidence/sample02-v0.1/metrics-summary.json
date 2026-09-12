@@ -1,0 +1,1639 @@
+{
+  "schema_version": "evaluation/v1",
+  "run_id": "sample02-fresh-provenance-v3",
+  "records": [
+    {
+      "schema_version": "evaluation/v1",
+      "video_id": "flux2_klein__ltxv_2b__perfume_flacon",
+      "video_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/videos/flux2_klein__ltxv_2b__perfume_flacon.mp4",
+      "video_sha256": "4bad42a56436d4f86ff3c66422ee733f58b709350c1bf4111ad0d4c5cc51cdb7",
+      "keyframe_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/keyframes/flux2_klein__perfume_flacon.png",
+      "understanding": {
+        "model": null,
+        "status": "unavailable",
+        "json_schema_pass": null,
+        "attribute_recognition": null,
+        "ocr_accuracy": null,
+        "ocr_protocol": null
+      },
+      "tracking": {
+        "status": "succeeded",
+        "sample_count": 16,
+        "source_frame_indices": [
+          0,
+          6,
+          13,
+          19,
+          26,
+          32,
+          38,
+          45,
+          51,
+          58,
+          64,
+          70,
+          77,
+          83,
+          90,
+          96
+        ],
+        "valid_mask_count": 16,
+        "tracked_mask_count": 16,
+        "product_appearance_rate": 1.0,
+        "tracking_interruptions": 0,
+        "backend_sequence": [
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component"
+        ],
+        "fallback_reasons": [
+          "sam3.1_and_groundingdino_sam2_not_available_or_not_validated"
+        ]
+      },
+      "segmentation": {
+        "input": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5470123291015625,
+          "bbox": [
+            213,
+            205,
+            559,
+            759
+          ],
+          "area_fraction": 0.15068689982096353,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.overlay.png"
+        },
+        "keyframe": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5221506754557291,
+          "bbox": [
+            212,
+            206,
+            559,
+            759
+          ],
+          "area_fraction": 0.13680394490559897,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/flux2_klein/keyframe.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/flux2_klein/keyframe.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/flux2_klein/keyframe.overlay.png"
+        }
+      },
+      "segmentation_success": {
+        "status": "succeeded",
+        "input": true,
+        "keyframe": true,
+        "video_raw_rate": 1.0,
+        "method": "alpha_or_saliency_component_with_video_mask_tracking"
+      },
+      "product_consistency": {
+        "status": "succeeded",
+        "reference_mask_backend": "saliency_component",
+        "keyframe_mask_backend": "saliency_component",
+        "video": {
+          "status": "succeeded",
+          "values": [
+            0.88856,
+            0.87155,
+            0.84311,
+            0.76329,
+            0.77627,
+            0.72493,
+            0.67538,
+            0.67718,
+            0.67945,
+            0.73741,
+            0.76705,
+            0.75278,
+            0.72526,
+            0.64493,
+            0.58376,
+            0.51566
+          ],
+          "mean": 0.72666,
+          "min": 0.51566,
+          "p10": 0.58376,
+          "std": 0.0955
+        },
+        "keyframe": {
+          "status": "succeeded",
+          "values": [
+            0.94024
+          ],
+          "mean": 0.94024,
+          "min": 0.94024,
+          "p10": 0.94024,
+          "std": 0.0
+        },
+        "legacy_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.98526,
+            0.98528,
+            0.98094,
+            0.97584,
+            0.96699,
+            0.95072,
+            0.91652,
+            0.88536,
+            0.85537,
+            0.88793,
+            0.88272,
+            0.86158,
+            0.85508,
+            0.8328,
+            0.80521,
+            0.78842
+          ],
+          "mean": 0.901,
+          "min": 0.78842,
+          "p10": 0.80521,
+          "std": 0.06435
+        },
+        "tracking_interruptions": 0,
+        "sample_count": 16
+      },
+      "text_match": {
+        "caption": "premium perfume, single rectangular amber glass flacon, champagne gold cap",
+        "image": 0.28576,
+        "video": 0.27429,
+        "clip_status": "succeeded"
+      },
+      "storyboard": {
+        "status": "succeeded",
+        "method": "event_level_visual_rules_plus_optional_vlm_review",
+        "score": 0.855,
+        "order_ok": true,
+        "continuity_score": 1.0,
+        "events": [
+          {
+            "id": "event_01",
+            "target_window_s": [
+              0.0,
+              0.8
+            ],
+            "observed_window_s": [
+              0.0,
+              0.7917
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "product_scale_increases",
+            "area_ratio": 0.94497,
+            "centre_jitter": 0.00558,
+            "foreground_brightness_range": 0.02599,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_01_00_frame-0000.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_01_01_frame-0002.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_01_02_frame-0003.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_02",
+            "target_window_s": [
+              0.8,
+              2.1
+            ],
+            "observed_window_s": [
+              1.0833,
+              1.875
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "continuous_horizontal_parallax",
+            "area_ratio": 0.87544,
+            "centre_jitter": 0.02395,
+            "foreground_brightness_range": 0.10771,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_02_00_frame-0004.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_02_01_frame-0006.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_02_02_frame-0007.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_03",
+            "target_window_s": [
+              2.1,
+              3.2
+            ],
+            "observed_window_s": [
+              2.125,
+              2.9167
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "foreground_brightness_changes",
+            "area_ratio": 1.23302,
+            "centre_jitter": 0.0303,
+            "foreground_brightness_range": 0.04198,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_03_00_frame-0008.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_03_01_frame-0010.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_03_02_frame-0011.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_04",
+            "target_window_s": [
+              3.2,
+              4.0417
+            ],
+            "observed_window_s": [
+              3.2083,
+              4.0
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "late_motion_settles",
+            "area_ratio": 0.80337,
+            "centre_jitter": 0.0381,
+            "foreground_brightness_range": 0.0334,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_04_00_frame-0012.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_04_01_frame-0014.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/storyboard/event_04_02_frame-0015.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          }
+        ],
+        "weights": {
+          "event_completion": 0.45,
+          "time_and_order": 0.25,
+          "visual_evidence": 0.2,
+          "continuity": 0.1
+        },
+        "note": "This is an explainable project evaluator, not an official VBench score or human aesthetic rating."
+      },
+      "temporal": {
+        "status": "succeeded",
+        "mean_frame_delta": 0.038861,
+        "frame_delta_jitter": 0.019371,
+        "temporal_stability": 0.5157,
+        "temporal_flicker": 0.4843,
+        "motion_smoothness": 0.4189,
+        "dynamic_degree": 0.8636,
+        "mask_area_mean": 0.11723,
+        "mask_area_std": 0.01574,
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768,
+          "sampled_frame_count": 16
+        },
+        "method": "uniform sampled frame deltas; diagnostic heuristic, not official VBench",
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.5157,
+          "motion_smoothness": 0.4189,
+          "dynamic_degree": 0.8636,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        }
+      },
+      "visual_quality": {
+        "status": "succeeded",
+        "method": "masked_crop_sharpness_exposure_diagnostic",
+        "quality_score": 0.3125,
+        "bad_frame_rate": 0.6875,
+        "mean_sharpness": 0.007435,
+        "mean_masked_contrast": 0.166409,
+        "mean_clipped_pixel_rate": 0.480073,
+        "failure_tags": [
+          "severe_clipping_candidate"
+        ],
+        "note": "Proxy diagnostics only; final visual quality still requires human review."
+      },
+      "engineering": {
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768
+        },
+        "vlm_latency_ms": null,
+        "image_latency_ms": 116960,
+        "video_latency_ms": 117633,
+        "peak_vram_mb": 19811,
+        "peak_vram_by_stage_mb": {
+          "vlm": null,
+          "image": 19811,
+          "video": 15534
+        },
+        "generation_record": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/wan-repro/videos/flux2_klein__ltxv_2b__perfume_flacon.json",
+        "generation_record_status": "succeeded",
+        "image_model_revision": "local-pinned-at-deploy",
+        "video_model_revision": "official-0.9.8-distilled",
+        "failure_rate": 0.0
+      },
+      "evidence_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon",
+      "evidence_paths": [
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0000.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0000.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0006.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0006.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0013.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0013.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0019.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0019.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0026.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0026.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0032.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0032.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0038.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0038.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0045.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0045.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0051.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0051.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0058.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0058.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0064.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0064.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0070.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0070.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0077.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0077.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0083.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0083.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0090.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0090.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0096.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__ltxv_2b__perfume_flacon/frame-0096.overlay.png"
+      ]
+    },
+    {
+      "schema_version": "evaluation/v1",
+      "video_id": "flux2_klein__wan22_ti2v_5b__perfume_flacon",
+      "video_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/videos/flux2_klein__wan22_ti2v_5b__perfume_flacon.mp4",
+      "video_sha256": "f8a0115e38905021586e486d77f981a888d83ed525b8f180b8f990a5f49a16a1",
+      "keyframe_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/keyframes/flux2_klein__perfume_flacon.png",
+      "understanding": {
+        "model": null,
+        "status": "unavailable",
+        "json_schema_pass": null,
+        "attribute_recognition": null,
+        "ocr_accuracy": null,
+        "ocr_protocol": null
+      },
+      "tracking": {
+        "status": "succeeded",
+        "sample_count": 16,
+        "source_frame_indices": [
+          0,
+          6,
+          13,
+          19,
+          26,
+          32,
+          38,
+          45,
+          51,
+          58,
+          64,
+          70,
+          77,
+          83,
+          90,
+          96
+        ],
+        "valid_mask_count": 16,
+        "tracked_mask_count": 16,
+        "product_appearance_rate": 1.0,
+        "tracking_interruptions": 0,
+        "backend_sequence": [
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component"
+        ],
+        "fallback_reasons": [
+          "sam3.1_and_groundingdino_sam2_not_available_or_not_validated"
+        ]
+      },
+      "segmentation": {
+        "input": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5470123291015625,
+          "bbox": [
+            213,
+            205,
+            559,
+            759
+          ],
+          "area_fraction": 0.15068689982096353,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.overlay.png"
+        },
+        "keyframe": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5221506754557291,
+          "bbox": [
+            212,
+            206,
+            559,
+            759
+          ],
+          "area_fraction": 0.13680394490559897,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/flux2_klein/keyframe.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/flux2_klein/keyframe.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/flux2_klein/keyframe.overlay.png"
+        }
+      },
+      "segmentation_success": {
+        "status": "succeeded",
+        "input": true,
+        "keyframe": true,
+        "video_raw_rate": 1.0,
+        "method": "alpha_or_saliency_component_with_video_mask_tracking"
+      },
+      "product_consistency": {
+        "status": "succeeded",
+        "reference_mask_backend": "saliency_component",
+        "keyframe_mask_backend": "saliency_component",
+        "video": {
+          "status": "succeeded",
+          "values": [
+            0.90628,
+            0.87325,
+            0.93058,
+            0.92716,
+            0.91205,
+            0.81292,
+            0.91284,
+            0.90859,
+            0.90629,
+            0.88841,
+            0.90131,
+            0.90083,
+            0.907,
+            0.90817,
+            0.89988,
+            0.89807
+          ],
+          "mean": 0.8996,
+          "min": 0.81292,
+          "p10": 0.87325,
+          "std": 0.02585
+        },
+        "keyframe": {
+          "status": "succeeded",
+          "values": [
+            0.94024
+          ],
+          "mean": 0.94024,
+          "min": 0.94024,
+          "p10": 0.94024,
+          "std": 0.0
+        },
+        "legacy_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.98996,
+            0.98759,
+            0.98776,
+            0.98655,
+            0.98575,
+            0.98618,
+            0.98575,
+            0.98635,
+            0.9859,
+            0.98556,
+            0.98579,
+            0.98549,
+            0.98412,
+            0.98401,
+            0.98365,
+            0.9827
+          ],
+          "mean": 0.98582,
+          "min": 0.9827,
+          "p10": 0.98365,
+          "std": 0.00169
+        },
+        "tracking_interruptions": 0,
+        "sample_count": 16
+      },
+      "text_match": {
+        "caption": "premium perfume, single rectangular amber glass flacon, champagne gold cap",
+        "image": 0.28576,
+        "video": 0.29213,
+        "clip_status": "succeeded"
+      },
+      "storyboard": {
+        "status": "succeeded",
+        "method": "event_level_visual_rules_plus_optional_vlm_review",
+        "score": 0.565,
+        "order_ok": true,
+        "continuity_score": 1.0,
+        "events": [
+          {
+            "id": "event_01",
+            "target_window_s": [
+              0.0,
+              0.8
+            ],
+            "observed_window_s": [
+              0.0,
+              0.7917
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "product_scale_increases",
+            "area_ratio": 1.00181,
+            "centre_jitter": 0.00315,
+            "foreground_brightness_range": 0.00289,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_01_00_frame-0000.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_01_01_frame-0002.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_01_02_frame-0003.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_02",
+            "target_window_s": [
+              0.8,
+              2.1
+            ],
+            "observed_window_s": [
+              1.0833,
+              1.875
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "continuous_horizontal_parallax",
+            "area_ratio": 1.0274,
+            "centre_jitter": 0.01369,
+            "foreground_brightness_range": 0.02163,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_02_00_frame-0004.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_02_01_frame-0006.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_02_02_frame-0007.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_03",
+            "target_window_s": [
+              2.1,
+              3.2
+            ],
+            "observed_window_s": [
+              2.125,
+              2.9167
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "foreground_brightness_changes",
+            "area_ratio": 0.97651,
+            "centre_jitter": 0.00201,
+            "foreground_brightness_range": 0.00946,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_03_00_frame-0008.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_03_01_frame-0010.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_03_02_frame-0011.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_04",
+            "target_window_s": [
+              3.2,
+              4.0417
+            ],
+            "observed_window_s": [
+              3.2083,
+              4.0
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "late_motion_settles",
+            "area_ratio": 1.00181,
+            "centre_jitter": 0.00016,
+            "foreground_brightness_range": 0.00073,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_04_00_frame-0012.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_04_01_frame-0014.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/storyboard/event_04_02_frame-0015.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          }
+        ],
+        "weights": {
+          "event_completion": 0.45,
+          "time_and_order": 0.25,
+          "visual_evidence": 0.2,
+          "continuity": 0.1
+        },
+        "note": "This is an explainable project evaluator, not an official VBench score or human aesthetic rating."
+      },
+      "temporal": {
+        "status": "succeeded",
+        "mean_frame_delta": 0.007209,
+        "frame_delta_jitter": 0.00743,
+        "temporal_stability": 0.8142,
+        "temporal_flicker": 0.1858,
+        "motion_smoothness": 0.7771,
+        "dynamic_degree": 0.1602,
+        "mask_area_mean": 0.13708,
+        "mask_area_std": 0.00301,
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768,
+          "sampled_frame_count": 16
+        },
+        "method": "uniform sampled frame deltas; diagnostic heuristic, not official VBench",
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.8142,
+          "motion_smoothness": 0.7771,
+          "dynamic_degree": 0.1602,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        }
+      },
+      "visual_quality": {
+        "status": "succeeded",
+        "method": "masked_crop_sharpness_exposure_diagnostic",
+        "quality_score": 1.0,
+        "bad_frame_rate": 0.0,
+        "mean_sharpness": 0.004953,
+        "mean_masked_contrast": 0.153743,
+        "mean_clipped_pixel_rate": 0.413204,
+        "failure_tags": [],
+        "note": "Proxy diagnostics only; final visual quality still requires human review."
+      },
+      "engineering": {
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768
+        },
+        "vlm_latency_ms": null,
+        "image_latency_ms": 116960,
+        "video_latency_ms": 293366,
+        "peak_vram_mb": 19811,
+        "peak_vram_by_stage_mb": {
+          "vlm": null,
+          "image": 19811,
+          "video": 11087
+        },
+        "generation_record": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/wan-repro/videos/flux2_klein__wan22_ti2v_5b__perfume_flacon.json",
+        "generation_record_status": "succeeded",
+        "image_model_revision": "local-pinned-at-deploy",
+        "video_model_revision": "local-pinned-at-deploy",
+        "failure_rate": 0.0
+      },
+      "evidence_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon",
+      "evidence_paths": [
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0000.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0000.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0006.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0006.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0013.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0013.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0019.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0019.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0026.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0026.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0032.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0032.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0038.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0038.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0045.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0045.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0051.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0051.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0058.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0058.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0064.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0064.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0070.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0070.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0077.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0077.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0083.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0083.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0090.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0090.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0096.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/flux2_klein__wan22_ti2v_5b__perfume_flacon/frame-0096.overlay.png"
+      ]
+    },
+    {
+      "schema_version": "evaluation/v1",
+      "video_id": "sdxl_ip_adapter__ltxv_2b__perfume_flacon",
+      "video_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/videos/sdxl_ip_adapter__ltxv_2b__perfume_flacon.mp4",
+      "video_sha256": "bc145e51ceed6011d32624b2fbc5fb12802c47a6b019e2bbec55d31e31fdf58c",
+      "keyframe_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/keyframes/sdxl_ip_adapter__perfume_flacon.png",
+      "understanding": {
+        "model": null,
+        "status": "unavailable",
+        "json_schema_pass": null,
+        "attribute_recognition": null,
+        "ocr_accuracy": null,
+        "ocr_protocol": null
+      },
+      "tracking": {
+        "status": "succeeded",
+        "sample_count": 16,
+        "source_frame_indices": [
+          0,
+          6,
+          13,
+          19,
+          26,
+          32,
+          38,
+          45,
+          51,
+          58,
+          64,
+          70,
+          77,
+          83,
+          90,
+          96
+        ],
+        "valid_mask_count": 16,
+        "tracked_mask_count": 16,
+        "product_appearance_rate": 1.0,
+        "tracking_interruptions": 0,
+        "backend_sequence": [
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component"
+        ],
+        "fallback_reasons": [
+          "sam3.1_and_groundingdino_sam2_not_available_or_not_validated"
+        ]
+      },
+      "segmentation": {
+        "input": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5470123291015625,
+          "bbox": [
+            213,
+            205,
+            559,
+            759
+          ],
+          "area_fraction": 0.15068689982096353,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.overlay.png"
+        },
+        "keyframe": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.3837229410807292,
+          "bbox": [
+            212,
+            273,
+            765,
+            1021
+          ],
+          "area_fraction": 0.09997304280598958,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/sdxl_ip_adapter/keyframe.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/sdxl_ip_adapter/keyframe.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/sdxl_ip_adapter/keyframe.overlay.png"
+        }
+      },
+      "segmentation_success": {
+        "status": "succeeded",
+        "input": true,
+        "keyframe": true,
+        "video_raw_rate": 1.0,
+        "method": "alpha_or_saliency_component_with_video_mask_tracking"
+      },
+      "product_consistency": {
+        "status": "succeeded",
+        "reference_mask_backend": "saliency_component",
+        "keyframe_mask_backend": "saliency_component",
+        "video": {
+          "status": "succeeded",
+          "values": [
+            0.62365,
+            0.61959,
+            0.62125,
+            0.61838,
+            0.55551,
+            0.23312,
+            0.25524,
+            0.33897,
+            0.42168,
+            0.43112,
+            0.47229,
+            0.48231,
+            0.47543,
+            0.46935,
+            0.58696,
+            0.53457
+          ],
+          "mean": 0.48371,
+          "min": 0.23312,
+          "p10": 0.25524,
+          "std": 0.12157
+        },
+        "keyframe": {
+          "status": "succeeded",
+          "values": [
+            0.65626
+          ],
+          "mean": 0.65626,
+          "min": 0.65626,
+          "p10": 0.65626,
+          "std": 0.0
+        },
+        "legacy_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.765,
+            0.76991,
+            0.76824,
+            0.76677,
+            0.73956,
+            0.69057,
+            0.65156,
+            0.62398,
+            0.61447,
+            0.61417,
+            0.61305,
+            0.59987,
+            0.61345,
+            0.62924,
+            0.62731,
+            0.66329
+          ],
+          "mean": 0.6719,
+          "min": 0.59987,
+          "p10": 0.61305,
+          "std": 0.0646
+        },
+        "tracking_interruptions": 0,
+        "sample_count": 16
+      },
+      "text_match": {
+        "caption": "premium perfume, single rectangular amber glass flacon, champagne gold cap",
+        "image": 0.28681,
+        "video": 0.24847,
+        "clip_status": "succeeded"
+      },
+      "storyboard": {
+        "status": "succeeded",
+        "method": "event_level_visual_rules_plus_optional_vlm_review",
+        "score": 0.71,
+        "order_ok": true,
+        "continuity_score": 1.0,
+        "events": [
+          {
+            "id": "event_01",
+            "target_window_s": [
+              0.0,
+              0.8
+            ],
+            "observed_window_s": [
+              0.0,
+              0.7917
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "product_scale_increases",
+            "area_ratio": 0.99347,
+            "centre_jitter": 0.00057,
+            "foreground_brightness_range": 0.00231,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_01_00_frame-0000.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_01_01_frame-0002.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_01_02_frame-0003.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_02",
+            "target_window_s": [
+              0.8,
+              2.1
+            ],
+            "observed_window_s": [
+              1.0833,
+              1.875
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "continuous_horizontal_parallax",
+            "area_ratio": 1.66872,
+            "centre_jitter": 0.18562,
+            "foreground_brightness_range": 0.29778,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_02_00_frame-0004.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_02_01_frame-0006.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_02_02_frame-0007.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_03",
+            "target_window_s": [
+              2.1,
+              3.2
+            ],
+            "observed_window_s": [
+              2.125,
+              2.9167
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "foreground_brightness_changes",
+            "area_ratio": 1.2923,
+            "centre_jitter": 0.03936,
+            "foreground_brightness_range": 0.03896,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_03_00_frame-0008.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_03_01_frame-0010.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_03_02_frame-0011.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_04",
+            "target_window_s": [
+              3.2,
+              4.0417
+            ],
+            "observed_window_s": [
+              3.2083,
+              4.0
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "late_motion_settles",
+            "area_ratio": 0.98724,
+            "centre_jitter": 0.03315,
+            "foreground_brightness_range": 0.03702,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_04_00_frame-0012.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_04_01_frame-0014.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/storyboard/event_04_02_frame-0015.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          }
+        ],
+        "weights": {
+          "event_completion": 0.45,
+          "time_and_order": 0.25,
+          "visual_evidence": 0.2,
+          "continuity": 0.1
+        },
+        "note": "This is an explainable project evaluator, not an official VBench score or human aesthetic rating."
+      },
+      "temporal": {
+        "status": "succeeded",
+        "mean_frame_delta": 0.044172,
+        "frame_delta_jitter": 0.035862,
+        "temporal_stability": 0.1034,
+        "temporal_flicker": 0.8966,
+        "motion_smoothness": 0.0,
+        "dynamic_degree": 0.9816,
+        "mask_area_mean": 0.11921,
+        "mask_area_std": 0.03015,
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768,
+          "sampled_frame_count": 16
+        },
+        "method": "uniform sampled frame deltas; diagnostic heuristic, not official VBench",
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.1034,
+          "motion_smoothness": 0.0,
+          "dynamic_degree": 0.9816,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        }
+      },
+      "visual_quality": {
+        "status": "succeeded",
+        "method": "masked_crop_sharpness_exposure_diagnostic",
+        "quality_score": 0.3125,
+        "bad_frame_rate": 0.6875,
+        "mean_sharpness": 0.012683,
+        "mean_masked_contrast": 0.208498,
+        "mean_clipped_pixel_rate": 0.554531,
+        "failure_tags": [
+          "severe_clipping_candidate"
+        ],
+        "note": "Proxy diagnostics only; final visual quality still requires human review."
+      },
+      "engineering": {
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768
+        },
+        "vlm_latency_ms": null,
+        "image_latency_ms": 176419,
+        "video_latency_ms": 292626,
+        "peak_vram_mb": 15534,
+        "peak_vram_by_stage_mb": {
+          "vlm": null,
+          "image": 14047,
+          "video": 15534
+        },
+        "generation_record": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/wan-repro/videos/sdxl_ip_adapter__ltxv_2b__perfume_flacon.json",
+        "generation_record_status": "succeeded",
+        "image_model_revision": "local-pinned-at-deploy",
+        "video_model_revision": "official-0.9.8-distilled",
+        "failure_rate": 0.0
+      },
+      "evidence_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon",
+      "evidence_paths": [
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0000.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0000.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0006.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0006.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0013.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0013.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0019.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0019.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0026.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0026.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0032.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0032.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0038.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0038.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0045.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0045.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0051.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0051.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0058.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0058.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0064.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0064.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0070.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0070.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0077.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0077.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0083.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0083.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0090.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0090.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0096.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__ltxv_2b__perfume_flacon/frame-0096.overlay.png"
+      ]
+    },
+    {
+      "schema_version": "evaluation/v1",
+      "video_id": "sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon",
+      "video_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/videos/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon.mp4",
+      "video_sha256": "dd88131d74ddf23330f32c0ef7c3230d54ced99fa7befd93accce300d528c602",
+      "keyframe_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/wan-repro/_shared/keyframes/sdxl_ip_adapter__perfume_flacon.png",
+      "understanding": {
+        "model": null,
+        "status": "unavailable",
+        "json_schema_pass": null,
+        "attribute_recognition": null,
+        "ocr_accuracy": null,
+        "ocr_protocol": null
+      },
+      "tracking": {
+        "status": "succeeded",
+        "sample_count": 16,
+        "source_frame_indices": [
+          0,
+          6,
+          13,
+          19,
+          26,
+          32,
+          38,
+          45,
+          51,
+          58,
+          64,
+          70,
+          77,
+          83,
+          90,
+          96
+        ],
+        "valid_mask_count": 16,
+        "tracked_mask_count": 16,
+        "product_appearance_rate": 1.0,
+        "tracking_interruptions": 0,
+        "backend_sequence": [
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component"
+        ],
+        "fallback_reasons": [
+          "sam3.1_and_groundingdino_sam2_not_available_or_not_validated"
+        ]
+      },
+      "segmentation": {
+        "input": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5470123291015625,
+          "bbox": [
+            213,
+            205,
+            559,
+            759
+          ],
+          "area_fraction": 0.15068689982096353,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/input/input.overlay.png"
+        },
+        "keyframe": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.3837229410807292,
+          "bbox": [
+            212,
+            273,
+            765,
+            1021
+          ],
+          "area_fraction": 0.09997304280598958,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/sdxl_ip_adapter/keyframe.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/sdxl_ip_adapter/keyframe.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/masks/keyframes/sdxl_ip_adapter/keyframe.overlay.png"
+        }
+      },
+      "segmentation_success": {
+        "status": "succeeded",
+        "input": true,
+        "keyframe": true,
+        "video_raw_rate": 1.0,
+        "method": "alpha_or_saliency_component_with_video_mask_tracking"
+      },
+      "product_consistency": {
+        "status": "succeeded",
+        "reference_mask_backend": "saliency_component",
+        "keyframe_mask_backend": "saliency_component",
+        "video": {
+          "status": "succeeded",
+          "values": [
+            0.69725,
+            0.6122,
+            0.62577,
+            0.59546,
+            0.64621,
+            0.61235,
+            0.61648,
+            0.57746,
+            0.59429,
+            0.58047,
+            0.62752,
+            0.58517,
+            0.19935,
+            0.57688,
+            0.58415,
+            0.58582
+          ],
+          "mean": 0.5823,
+          "min": 0.19935,
+          "p10": 0.57688,
+          "std": 0.10346
+        },
+        "keyframe": {
+          "status": "succeeded",
+          "values": [
+            0.65626
+          ],
+          "mean": 0.65626,
+          "min": 0.65626,
+          "p10": 0.65626,
+          "std": 0.0
+        },
+        "legacy_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.77305,
+            0.76738,
+            0.77316,
+            0.77207,
+            0.76837,
+            0.7768,
+            0.78288,
+            0.78315,
+            0.78139,
+            0.78348,
+            0.78062,
+            0.78378,
+            0.77951,
+            0.77637,
+            0.78208,
+            0.78844
+          ],
+          "mean": 0.77828,
+          "min": 0.76738,
+          "p10": 0.76837,
+          "std": 0.00587
+        },
+        "tracking_interruptions": 0,
+        "sample_count": 16
+      },
+      "text_match": {
+        "caption": "premium perfume, single rectangular amber glass flacon, champagne gold cap",
+        "image": 0.28681,
+        "video": 0.28833,
+        "clip_status": "succeeded"
+      },
+      "storyboard": {
+        "status": "succeeded",
+        "method": "event_level_visual_rules_plus_optional_vlm_review",
+        "score": 0.71,
+        "order_ok": true,
+        "continuity_score": 1.0,
+        "events": [
+          {
+            "id": "event_01",
+            "target_window_s": [
+              0.0,
+              0.8
+            ],
+            "observed_window_s": [
+              0.0,
+              0.7917
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "product_scale_increases",
+            "area_ratio": 0.52262,
+            "centre_jitter": 0.01073,
+            "foreground_brightness_range": 0.16176,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_01_00_frame-0000.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_01_01_frame-0002.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_01_02_frame-0003.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_02",
+            "target_window_s": [
+              0.8,
+              2.1
+            ],
+            "observed_window_s": [
+              1.0833,
+              1.875
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "continuous_horizontal_parallax",
+            "area_ratio": 0.9754,
+            "centre_jitter": 0.00229,
+            "foreground_brightness_range": 0.0108,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_02_00_frame-0004.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_02_01_frame-0006.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_02_02_frame-0007.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_03",
+            "target_window_s": [
+              2.1,
+              3.2
+            ],
+            "observed_window_s": [
+              2.125,
+              2.9167
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "foreground_brightness_changes",
+            "area_ratio": 0.99808,
+            "centre_jitter": 0.024,
+            "foreground_brightness_range": 0.0513,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_03_00_frame-0008.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_03_01_frame-0010.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_03_02_frame-0011.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_04",
+            "target_window_s": [
+              3.2,
+              4.0417
+            ],
+            "observed_window_s": [
+              3.2083,
+              4.0
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "late_motion_settles",
+            "area_ratio": 2.01438,
+            "centre_jitter": 0.07305,
+            "foreground_brightness_range": 0.066,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_04_00_frame-0012.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_04_01_frame-0014.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/storyboard/event_04_02_frame-0015.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          }
+        ],
+        "weights": {
+          "event_completion": 0.45,
+          "time_and_order": 0.25,
+          "visual_evidence": 0.2,
+          "continuity": 0.1
+        },
+        "note": "This is an explainable project evaluator, not an official VBench score or human aesthetic rating."
+      },
+      "temporal": {
+        "status": "succeeded",
+        "mean_frame_delta": 0.00667,
+        "frame_delta_jitter": 0.004297,
+        "temporal_stability": 0.8926,
+        "temporal_flicker": 0.1074,
+        "motion_smoothness": 0.8711,
+        "dynamic_degree": 0.1482,
+        "mask_area_mean": 0.1006,
+        "mask_area_std": 0.0263,
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768,
+          "sampled_frame_count": 16
+        },
+        "method": "uniform sampled frame deltas; diagnostic heuristic, not official VBench",
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.8926,
+          "motion_smoothness": 0.8711,
+          "dynamic_degree": 0.1482,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        }
+      },
+      "visual_quality": {
+        "status": "succeeded",
+        "method": "masked_crop_sharpness_exposure_diagnostic",
+        "quality_score": 1.0,
+        "bad_frame_rate": 0.0,
+        "mean_sharpness": 0.007352,
+        "mean_masked_contrast": 0.214809,
+        "mean_clipped_pixel_rate": 0.152622,
+        "failure_tags": [],
+        "note": "Proxy diagnostics only; final visual quality still requires human review."
+      },
+      "engineering": {
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768
+        },
+        "vlm_latency_ms": null,
+        "image_latency_ms": 176419,
+        "video_latency_ms": 555816,
+        "peak_vram_mb": 14047,
+        "peak_vram_by_stage_mb": {
+          "vlm": null,
+          "image": 14047,
+          "video": 11063
+        },
+        "generation_record": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/wan-repro/videos/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon.json",
+        "generation_record_status": "succeeded",
+        "image_model_revision": "local-pinned-at-deploy",
+        "video_model_revision": "local-pinned-at-deploy",
+        "failure_rate": 0.0
+      },
+      "evidence_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon",
+      "evidence_paths": [
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0000.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0000.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0006.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0006.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0013.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0013.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0019.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0019.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0026.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0026.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0032.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0032.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0038.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0038.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0045.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0045.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0051.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0051.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0058.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0058.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0064.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0064.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0070.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0070.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0077.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0077.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0083.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0083.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0090.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0090.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0096.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3/evidence/sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon/frame-0096.overlay.png"
+      ]
+    }
+  ],
+  "embedding_model_errors": {}
+}

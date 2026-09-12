@@ -24,6 +24,7 @@ samples/sample-02/
   records/               generation provenance sidecars
 results/                 local-only reports and Phase 3 artifacts (ignored)
 runs/                    server/local run manifests, masks, evidence and logs (ignored)
+docs/evidence/           checked-in small provenance indexes for the demo
 third_party/             local runtime sources such as LTX-Video (ignored)
 ```
 

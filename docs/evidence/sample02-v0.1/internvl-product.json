@@ -1,0 +1,53 @@
+{
+  "schema_version": "product/v1",
+  "status": "succeeded",
+  "model": "internvl3_5_8b",
+  "model_path": "/public/lyh/projects/CV_projects/models/InternVL3_5-8B-HF",
+  "source_record": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-internvl-eval/understanding/vlm/internvl3_5_8b.json",
+  "prediction": {
+    "schema_version": "product/v1",
+    "product_name": null,
+    "category": "perfume",
+    "visual_description": "A bottle of amber-colored liquid perfume with a metallic cap, placed on a round, speckled stone-like stand.",
+    "usage_method": "Spray or apply directly to skin.",
+    "core_selling_points": [
+      "Luxurious design",
+      "Long-lasting fragrance",
+      "High-quality ingredients"
+    ],
+    "target_audience": "Adults seeking elegant and sophisticated fragrances",
+    "usage_scene": [
+      "Everyday wear",
+      "Special occasions",
+      "Professional settings"
+    ],
+    "pain_point_gain_point": {
+      "pain_point": "Short fragrance life",
+      "gain_point": "Long-lasting scent"
+    },
+    "ingredients_material": null,
+    "spec_size": null,
+    "attributes": {
+      "form_factor": "Round",
+      "colors": [
+        "amber",
+        "gold"
+      ],
+      "material": "Glass",
+      "finish": "Smooth",
+      "closure": "Snap cap",
+      "container_count": 1
+    },
+    "ocr_text": [],
+    "ocr_confidence": 0.0
+  },
+  "metrics": {
+    "json_schema_pass": true,
+    "attribute_recognition": 0.5429,
+    "ocr_accuracy": 1.0,
+    "ocr_protocol": "negative_text_control"
+  },
+  "raw_text": "{\n  \"schema_version\": \"product/v1\",\n  \"product_name\": null,\n  \"category\": \"perfume\",\n  \"visual_description\": \"A bottle of amber-colored liquid perfume with a metallic cap, placed on a round, speckled stone-like stand.\",\n  \"usage_method\": \"Spray or apply directly to skin.\",\n  \"core_selling_points\": [\"Luxurious design\", \"Long-lasting fragrance\", \"High-quality ingredients\"],\n  \"target_audience\": \"Adults seeking elegant and sophisticated fragrances\",\n  \"usage_scene\": [\"Everyday wear\", \"Special occasions\", \"Professional settings\"],\n  \"pain_point_gain_point\": {\n    \"pain_point\": \"Short fragrance life\",\n    \"gain_point\": \"Long-lasting scent\"\n  },\n  \"ingredients_material\": null,\n  \"spec_size\": null,\n  \"attributes\": {\n    \"form_factor\": \"Round\",\n    \"colors\": [\"amber\", \"gold\"],\n    \"material\": \"Glass\",\n    \"finish\": \"Smooth\",\n    \"closure\": \"Snap cap\",\n    \"container_count\": 1\n  },\n  \"ocr_text\": [],\n  \"ocr_confidence\": 0.0\n}",
+  "latency_ms": 14893,
+  "peak_vram_mb": 17187
+}

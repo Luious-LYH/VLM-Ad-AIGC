@@ -1,0 +1,59 @@
+{
+  "schema_version": "product/v1",
+  "status": "succeeded",
+  "model": "qwen3_vl",
+  "model_path": "/public/lyh/projects/CV_projects/models/Qwen3-VL-4B-Instruct-v3",
+  "source_record": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-qwen-eval/understanding/vlm/qwen3_vl.json",
+  "prediction": {
+    "schema_version": "product/v1",
+    "product_name": null,
+    "category": "Perfume",
+    "visual_description": "A glass perfume bottle with amber liquid, featuring a brushed gold cap and a pump dispenser, placed on a circular, porous stone base against a beige background.",
+    "usage_method": "Dispense from pump dispenser",
+    "core_selling_points": [
+      "Modern design with brushed gold cap",
+      "Amber glass container",
+      "Stone base for elegant display"
+    ],
+    "target_audience": "Adults seeking luxury fragrance products",
+    "usage_scene": "Home display, retail showcase, personal vanity",
+    "pain_point_gain_point": [
+      "Elevates product presentation",
+      "Modern aesthetic appeals to design-conscious consumers",
+      "Premium feel through material contrast"
+    ],
+    "ingredients_material": null,
+    "spec_size": null,
+    "attributes": {
+      "form_factor": "Bottle with pump dispenser",
+      "colors": [
+        "amber",
+        "gold",
+        "beige"
+      ],
+      "material": [
+        "glass",
+        "metal",
+        "stone"
+      ],
+      "finish": [
+        "brushed",
+        "matte",
+        "textured"
+      ],
+      "closure": "pump dispenser with gold cap",
+      "container_count": 1
+    },
+    "ocr_text": [],
+    "ocr_confidence": 0
+  },
+  "metrics": {
+    "json_schema_pass": true,
+    "attribute_recognition": 0.5527,
+    "ocr_accuracy": 1.0,
+    "ocr_protocol": "negative_text_control"
+  },
+  "raw_text": "{\"schema_version\": \"product/v1\", \"product_name\": null, \"category\": \"Perfume\", \"visual_description\": \"A glass perfume bottle with amber liquid, featuring a brushed gold cap and a pump dispenser, placed on a circular, porous stone base against a beige background.\", \"usage_method\": \"Dispense from pump dispenser\", \"core_selling_points\": [\"Modern design with brushed gold cap\", \"Amber glass container\", \"Stone base for elegant display\"], \"target_audience\": \"Adults seeking luxury fragrance products\", \"usage_scene\": \"Home display, retail showcase, personal vanity\", \"pain_point_gain_point\": [\"Elevates product presentation\", \"Modern aesthetic appeals to design-conscious consumers\", \"Premium feel through material contrast\"], \"ingredients_material\": null, \"spec_size\": null, \"attributes\": {\"form_factor\": \"Bottle with pump dispenser\", \"colors\": [\"amber\", \"gold\", \"beige\"], \"material\": [\"glass\", \"metal\", \"stone\"], \"finish\": [\"brushed\", \"matte\", \"textured\"], \"closure\": \"pump dispenser with gold cap\", \"container_count\": 1}, \"ocr_text\": [], \"ocr_confidence\": 0}",
+  "latency_ms": 11240,
+  "peak_vram_mb": 8794
+}

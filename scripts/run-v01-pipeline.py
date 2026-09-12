@@ -24,6 +24,17 @@ DEFAULT_CONFIG = PROJECT_ROOT / "configs/phase2-comparison.json"
 DEFAULT_INPUT = PROJECT_ROOT / "samples/sample-02/input.png"
 
 
+def pipeline_python() -> str:
+    """Use the configured ML runtime for evaluation subprocesses.
+
+    The server intentionally keeps a small system Python for orchestration and
+    a separate environment with numpy/PyAV/torch for evaluation.  Falling back
+    to ``sys.executable`` keeps local development unchanged.
+    """
+    configured = os.environ.get("AIGC_PIPELINE_PYTHON") or os.environ.get("AIGC_SERVICE_PYTHON")
+    return configured if configured and Path(configured).is_file() else sys.executable
+
+
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -47,14 +58,7 @@ def build_single_sample_config(base_path: Path, input_path: Path, campaign_promp
         "generate_prompt": None,
         "micro_action": "a restrained studio highlight moves across the product while its identity remains fixed",
         "ground_truth": {
-            "category": "unknown",
-            "form_factor": "single product",
-            "colors": [],
-            "material": "",
-            "finish": "",
-            "closure": "",
-            "container_count": 1,
-            "ocr_text": [],
+            "evaluation_label_source": "unavailable",
         },
     }]
     write_json(output_path, config)
@@ -77,6 +81,12 @@ def main() -> None:
     parser.add_argument("--service-url", default="http://127.0.0.1:8100")
     parser.add_argument("--generate", action="store_true",
                         help="Generate one product's keyframes/videos before evaluating")
+    parser.add_argument("--only-image-model", choices=("sdxl_ip_adapter", "flux2_klein"), default=None,
+                        help="Optional generation filter for a fast reproducibility run")
+    parser.add_argument("--only-video-model", choices=("ltxv_2b", "wan22_ti2v_5b"), default=None,
+                        help="Optional generation filter for a fast reproducibility run")
+    parser.add_argument("--reuse-existing", action="store_true",
+                        help="Reuse existing generated media/sidecars in the selected output and run roots")
     parser.add_argument("--vlm-model", choices=("none", "qwen3_vl", "internvl3_5_8b"), default="none")
     parser.add_argument("--vlm-path", type=Path, default=None)
     parser.add_argument("--request-timeout", type=int, default=2400)
@@ -94,10 +104,13 @@ def main() -> None:
     if args.generate:
         config_path = build_single_sample_config(config_path, input_path, args.prompt, run_root / "pipeline-config.json")
         run([
-            sys.executable, str(PROJECT_ROOT / "scripts/run-phase2-comparison.py"),
+            pipeline_python(), str(PROJECT_ROOT / "scripts/run-phase2-comparison.py"),
             "--config", str(config_path), "--base-url", args.service_url,
             "--output-root", str(output_root), "--run-root", str(run_root / "generation"),
             "--skip-vlm", "--skip-input-generation", "--request-timeout", str(args.request_timeout),
+            *( ["--skip-existing"] if args.reuse_existing else [] ),
+            *((["--only-image-model", args.only_image_model] if args.only_image_model else [])),
+            *((["--only-video-model", args.only_video_model] if args.only_video_model else [])),
         ])
         keyframe_root = output_root / "_shared/keyframes"
         video_root = output_root / "_shared/videos"
@@ -108,7 +121,7 @@ def main() -> None:
         record_root = PROJECT_ROOT / "samples/sample-02/records"
 
     eval_command = [
-        sys.executable, str(PROJECT_ROOT / "scripts/run-v01-evaluation.py"),
+        pipeline_python(), str(PROJECT_ROOT / "scripts/run-v01-evaluation.py"),
         "--config", str(config_path), "--input", str(input_path),
         "--keyframe-root", str(keyframe_root), "--video-root", str(video_root),
         "--record-root", str(record_root), "--output-root", str(run_root / "evaluation"),

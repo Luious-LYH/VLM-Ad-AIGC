@@ -1,30 +1,33 @@
-"""Generate a reproducible Phase 3 before/after comparison.
+"""Build the Phase 3 ablation report from completed v0.1 evaluations.
 
-The migrated repository ships a curated FLUX.2-klein + LTXV example as the
-baseline.  The optional improved request keeps its input, seed and output
-specification while asking the HunyuanVideo-1.5 worker for an explicit camera
-storyboard and identity/temporal candidate ranking.  No curated sample is
-overwritten.
+Phase 3 is intentionally offline and reproducible: it does not launch another
+video model. It compares the same videos with (1) the real product mask and
+the legacy centre ellipse, (2) uniform 3-frame and 16-frame sampling runs,
+and (3) the legacy motion heuristic and event-level storyboard evaluator.
 """
 
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
-import shutil
-import statistics
-import time
+import os
+import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from urllib.request import Request, urlopen
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RECORD = PROJECT_ROOT / "samples/sample-02/records/record_flux.json"
-DEFAULT_OUTPUT = PROJECT_ROOT / "public/uploads/phase3/sample-02"
-DEFAULT_RUN = PROJECT_ROOT / "runs/phase3/sample-02"
+DEFAULT_RUN = PROJECT_ROOT / "runs/v0.1/sample02-fresh-provenance-v3"
+DEFAULT_SAMPLE_RUN = PROJECT_ROOT / "runs/phase3/sample-02/eval-3"
+DEFAULT_OUTPUT = PROJECT_ROOT / "results/phase3/sample-02"
+
+
+def runtime_python() -> str:
+    """Use the configured ML environment when the launcher is system Python."""
+    configured = os.environ.get("AIGC_PIPELINE_PYTHON") or os.environ.get("AIGC_SERVICE_PYTHON")
+    return configured if configured and Path(configured).is_file() else sys.executable
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -36,243 +39,157 @@ def write_json(path: Path, value: dict[str, Any]) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def resolve_media_path(value: Any) -> Path | None:
-    """Resolve a record path against this checkout without trusting old roots."""
-    if not isinstance(value, str) or not value:
-        return None
-    candidate = Path(value)
-    if candidate.is_file():
-        return candidate.resolve()
-    if not candidate.is_absolute():
-        candidate = (PROJECT_ROOT / candidate).resolve()
-        if candidate.is_file():
-            return candidate
-    return None
+def metric_files(run_dir: Path) -> list[Path]:
+    return sorted(path for path in (run_dir / "metrics").glob("*.json") if path.name != "summary.json")
 
 
-def request(base: str, path: str, payload: dict[str, Any] | None = None, timeout: int = 60) -> dict[str, Any]:
-    body = json.dumps(payload, ensure_ascii=False).encode() if payload is not None else None
-    headers = {"Content-Type": "application/json"} if body else {}
-    with urlopen(Request(f"{base.rstrip('/')}{path}", data=body, headers=headers), timeout=timeout) as response:
-        return json.load(response)
+def load_metrics(run_dir: Path) -> dict[str, dict[str, Any]]:
+    rows: dict[str, dict[str, Any]] = {}
+    for path in metric_files(run_dir):
+        row = read_json(path)
+        rows[str(row.get("video_id") or path.stem)] = row
+    return rows
 
 
-def wait_job(base: str, job_id: str, timeout: int) -> dict[str, Any]:
-    deadline = time.monotonic() + timeout
-    while time.monotonic() < deadline:
-        job = request(base, f"/v1/jobs/{job_id}", timeout=30)
-        if job.get("status") in {"succeeded", "failed"}:
-            return job
-        time.sleep(2)
-    raise TimeoutError(f"job timed out: {job_id}")
+def run_three_sample_evaluation(args: argparse.Namespace, target: Path) -> None:
+    """Create an independent uniform-3 sampling run when requested."""
+    target.mkdir(parents=True, exist_ok=True)
+    command = [
+        runtime_python(), str(PROJECT_ROOT / "scripts/run-v01-evaluation.py"),
+        "--config", str(args.config.resolve()), "--input", str(args.input.resolve()),
+        "--keyframe-root", str(args.keyframe_root.resolve()), "--video-root", str(args.video_root.resolve()),
+        "--record-root", str(args.record_root.resolve()), "--output-root", str(target.parent),
+        "--run-id", target.name, "--max-video-samples", "3",
+    ]
+    if args.dino_path is not None:
+        command += ["--dino-path", str(args.dino_path.resolve())]
+    if args.clip_path is not None:
+        command += ["--clip-path", str(args.clip_path.resolve())]
+    print("+", " ".join(command))
+    subprocess.run(command, cwd=PROJECT_ROOT, check=True)
 
 
-def url_to_path(url: str) -> Path:
-    if not url.startswith("/uploads/"):
-        raise ValueError(f"unexpected local worker URL: {url}")
-    public_root = (PROJECT_ROOT / "public").resolve()
-    path = (public_root / url.removeprefix("/uploads/")).resolve()
-    # The service URL is /uploads/local-aigc/...; restore the public/uploads
-    # prefix explicitly and reject path traversal.
-    path = (public_root / "uploads" / url.removeprefix("/uploads/")).resolve()
-    if public_root not in path.parents:
-        raise ValueError(f"worker URL escaped public root: {url}")
-    return path
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def evaluate_video(video_path: Path, reference_path: Path, dino_path: Path) -> dict[str, Any]:
-    """Use the same lightweight, product-masked metrics as Phase 2."""
-    import av
-    import numpy as np
-    from PIL import Image, ImageDraw
-
-    container = av.open(str(video_path))
-    stream = container.streams.video[0]
-    fps = float(stream.average_rate) if stream.average_rate else 0.0
-    width, height = stream.width, stream.height
-    frames = [frame.to_image().convert("RGB") for frame in container.decode(video=0)]
-    container.close()
-    arrays = [np.asarray(frame.resize((96, 128)), dtype=np.float32) / 255.0 for frame in frames]
-    diffs = [float(np.abs(right - left).mean()) for left, right in zip(arrays, arrays[1:])]
-    mean_diff = statistics.mean(diffs) if diffs else 0.0
-    jitter = statistics.pstdev(diffs) if len(diffs) > 1 else 0.0
-    stability = max(0.0, min(1.0, 1.0 - jitter * 25.0))
-    motion = max(0.0, min(1.0, mean_diff / 0.045))
-    storyboard = 0.45 * motion + 0.35 * stability + 0.20 * (1.0 if len(frames) == 97 else 0.0)
-
-    dino_similarity = None
-    if dino_path.is_dir() and frames:
-        try:
-            import torch
-            from transformers import AutoImageProcessor, AutoModel
-
-            processor = AutoImageProcessor.from_pretrained(dino_path, local_files_only=True)
-            model = AutoModel.from_pretrained(dino_path, local_files_only=True).eval().to("cpu")
-
-            def mask_product(image: Image.Image) -> Image.Image:
-                image = image.convert("RGB")
-                mask = Image.new("L", image.size, 0)
-                draw = ImageDraw.Draw(mask)
-                draw.ellipse((int(image.width * 0.08), int(image.height * 0.04), int(image.width * 0.92), int(image.height * 0.98)), fill=255)
-                return Image.composite(image, Image.new("RGB", image.size, (0, 0, 0)), mask)
-
-            def embed(image: Image.Image):
-                inputs = processor(images=mask_product(image), return_tensors="pt")
-                with torch.inference_mode():
-                    output = model(**inputs)
-                vector = output.pooler_output[0] if getattr(output, "pooler_output", None) is not None else output.last_hidden_state[:, 0][0]
-                return torch.nn.functional.normalize(vector.float(), dim=0)
-
-            anchor = embed(Image.open(reference_path).convert("RGB"))
-            selected = [frames[0], frames[len(frames) // 2], frames[-1]]
-            dino_similarity = statistics.mean(float(torch.dot(anchor, embed(frame)).item()) for frame in selected)
-        except Exception as exc:
-            dino_similarity = None
-            dino_error = repr(exc)
-        else:
-            dino_error = None
-    else:
-        dino_error = "missing_dino_or_frames"
+def make_report(full_rows: dict[str, dict[str, Any]], sample_rows: dict[str, dict[str, Any]] | None,
+                full_run: Path, sample_run: Path | None) -> dict[str, Any]:
+    rows: list[dict[str, Any]] = []
+    for video_id, item in full_rows.items():
+        product = item.get("product_consistency", {})
+        real = product.get("video", {})
+        ellipse = product.get("legacy_ellipse", {})
+        temporal = item.get("temporal", {})
+        event_storyboard = item.get("storyboard", {})
+        # The curated v0.1 run includes the sample id in each video id while
+        # the evaluator's generic sample run does not. Accept both forms.
+        sample_item = (sample_rows or {}).get(video_id, {})
+        if not sample_item and sample_rows:
+            generic_id = "__".join(video_id.split("__")[:2])
+            sample_item = sample_rows.get(generic_id, {})
+        sample_product = sample_item.get("product_consistency", {}).get("video", {})
+        rows.append({
+            "video_id": video_id,
+            "mask_ablation": {
+                "real_product_mask": real,
+                "legacy_center_ellipse": ellipse,
+                "mean_delta_real_minus_ellipse": round(float(real["mean"]) - float(ellipse["mean"]), 6)
+                if isinstance(real.get("mean"), (int, float)) and isinstance(ellipse.get("mean"), (int, float)) else None,
+                "interpretation": "reference-preservation proxy; ellipse is diagnostic only",
+            },
+            "sampling_ablation": {
+                "uniform_16": real,
+                "uniform_3": sample_product if sample_product else {"status": "unavailable"},
+                "three_frame_run": str(sample_run) if sample_item else None,
+                "interpretation": "3-frame result is an independent evaluator run when present; it is less sensitive to intermittent failures than 16 uniform samples",
+            },
+            "storyboard_ablation": {
+                "event_level_score": event_storyboard.get("score"),
+                "legacy_motion_heuristic": temporal.get("legacy_motion_heuristic"),
+                "interpretation": "event-level score checks configured time windows and product-region evidence; legacy value is retained for comparison",
+            },
+        })
     return {
-        "frame_count": len(frames),
-        "fps": fps,
-        "width": width,
-        "height": height,
-        "mean_frame_delta": round(mean_diff, 6),
-        "frame_delta_jitter": round(jitter, 6),
-        "temporal_stability": round(stability, 4),
-        "motion_presence": round(motion, 4),
-        "storyboard_adherence_heuristic": round(storyboard, 4),
-        "masked_dino_product_similarity": round(float(dino_similarity), 4) if dino_similarity is not None else None,
-        "dino_error": dino_error,
-        "metric_note": "DINO compares a centered product mask in the reference keyframe with the candidate first/middle/last frames; it is an identity proxy, not a human quality score.",
+        "schema_version": "metacut.phase3_ablation/v2",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "sample_id": "perfume_flacon",
+        "full_evaluation_run": str(full_run.resolve()),
+        "three_sample_evaluation_run": str(sample_run.resolve()) if sample_run else None,
+        "evaluation_type": "self_supervised_proxy_and_manual_storyboard_proxy",
+        "rows": rows,
+        "limitations": [
+            "DINO measures reference-preservation similarity, not overall visual quality.",
+            "The centre ellipse is included only to show why a real product mask matters; it is not the primary score.",
+            "Three versus sixteen frames changes sampling coverage, not the generated video.",
+            "Storyboard values are explainable project heuristics and require human side-by-side review.",
+            "Prompt-original versus VLM-rewrite is not run in this v0.1 artifact because VLM does not alter the generation request by default.",
+        ],
     }
+
+
+def write_markdown(report: dict[str, Any], path: Path) -> None:
+    lines = [
+        "# Phase 3 消融报告", "",
+        "本报告复用已完成的 v0.1 视频，不重新生成媒体。所有数值都是商品一致性/时序/分镜的可解释代理指标，不能替代人工审片。", "",
+        "| 视频组合 | 真实 mask DINO mean | 中心椭圆 DINO mean | 真实-mask差值 | 16帧 DINO mean | 3帧 DINO mean | 事件级 Storyboard | 旧稳定性启发式 |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for row in report["rows"]:
+        mask = row["mask_ablation"]
+        sampling = row["sampling_ablation"]
+        storyboard = row["storyboard_ablation"]
+        real = mask.get("real_product_mask", {})
+        ellipse = mask.get("legacy_center_ellipse", {})
+        three = sampling.get("uniform_3", {})
+        legacy_stability = storyboard.get("legacy_motion_heuristic", {})
+        if isinstance(legacy_stability, dict):
+            legacy_stability = legacy_stability.get("temporal_stability", "—")
+        lines.append(
+            f"| `{row['video_id']}` | {real.get('mean', '—')} | {ellipse.get('mean', '—')} | "
+            f"{mask.get('mean_delta_real_minus_ellipse', '—')} | {sampling.get('uniform_16', {}).get('mean', '—')} | "
+            f"{three.get('mean', '—')} | {storyboard.get('event_level_score', '—')} | {legacy_stability} |"
+        )
+    lines += [
+        "", "## 解释", "",
+        "- `真实 mask DINO` 使用输入商品与视频商品区域的 DINOv2 embedding 余弦相似度；中心椭圆仅作旧方法对照。",
+        "- `3帧/16帧` 对同一 MP4 使用不同的均匀采样密度；必须结合最低分、p10 和人工证据帧阅读。",
+        "- `事件级 Storyboard` 检查时间窗口、动作证据、顺序和商品是否缺失；`旧运动启发式` 只反映帧差与时长。",
+        "- 该单样本消融不支持跨数据集泛化或统计显著性结论。", "",
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--base-url", default="http://127.0.0.1:8100")
-    parser.add_argument("--baseline-record", type=Path, default=DEFAULT_RECORD)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--run-dir", type=Path, default=DEFAULT_RUN, help="Completed v0.1 evaluation with 16 uniform samples")
+    parser.add_argument("--three-sample-run", type=Path, default=DEFAULT_SAMPLE_RUN, help="Existing independent --max-video-samples 3 run")
+    parser.add_argument("--run-three-sample", action="store_true", help="Run the evaluator at 3 samples before building the report")
+    parser.add_argument("--config", type=Path, default=PROJECT_ROOT / "configs/phase2-comparison.json")
+    parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "samples/sample-02/input.png")
+    parser.add_argument("--keyframe-root", type=Path, default=PROJECT_ROOT / "samples/sample-02/keyframes")
+    parser.add_argument("--video-root", type=Path, default=PROJECT_ROOT / "samples/sample-02/videos")
+    parser.add_argument("--record-root", type=Path, default=PROJECT_ROOT / "samples/sample-02/records")
+    parser.add_argument("--dino-path", type=Path, default=None)
+    parser.add_argument("--clip-path", type=Path, default=None)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--run-root", type=Path, default=DEFAULT_RUN)
-    parser.add_argument("--dino-path", type=Path, default=PROJECT_ROOT / "models/dinov2-small")
-    parser.add_argument("--request-timeout", type=int, default=2700)
-    parser.add_argument("--identity-weight", type=float, default=0.55)
-    parser.add_argument("--evaluate-only", action="store_true", help="Recompute metrics for existing Phase 3 videos without launching Hunyuan")
+    # Compatibility alias for older commands; Phase 3 no longer launches Hunyuan.
+    parser.add_argument("--evaluate-only", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
 
-    baseline_record = read_json(args.baseline_record)
-    baseline_path = resolve_media_path((baseline_record.get("video") or {}).get("output"))
-    baseline_path = baseline_path or resolve_media_path(args.baseline_record.parent / "final.mp4")
-    reference_path = PROJECT_ROOT / "samples/sample-02/keyframes/flux2_klein.png"
-    if baseline_path is None or not baseline_path.is_file() or not reference_path.is_file():
-        raise FileNotFoundError(f"baseline/reference missing: {baseline_path}, {reference_path}")
-    if args.evaluate_only:
-        baseline_out = args.output_root / "baseline.mp4"
-        improved_out = args.output_root / "improved.mp4"
-        if not baseline_out.is_file() or not improved_out.is_file():
-            raise FileNotFoundError(f"Phase 3 outputs missing: {baseline_out}, {improved_out}")
-        comparison_path = args.output_root / "comparison.json"
-        comparison = read_json(comparison_path) if comparison_path.is_file() else {"schema_version": "metacut.phase3_ablation/v1"}
-        baseline_metrics = evaluate_video(baseline_out, reference_path, args.dino_path)
-        improved_metrics = evaluate_video(improved_out, reference_path, args.dino_path)
-        comparison.setdefault("baseline", {}).update({"metrics": baseline_metrics, "output": str(baseline_out), "sha256": sha256(baseline_out)})
-        comparison.setdefault("improved", {}).update({"metrics": improved_metrics, "output": str(improved_out), "sha256": sha256(improved_out)})
-        comparison["delta"] = {
-            key: improved_metrics.get(key) - baseline_metrics.get(key)
-            for key in ("temporal_stability", "motion_presence", "storyboard_adherence_heuristic", "masked_dino_product_similarity")
-            if isinstance(improved_metrics.get(key), (int, float)) and isinstance(baseline_metrics.get(key), (int, float))
-        }
-        comparison["metrics_recomputed_at"] = datetime.now(timezone.utc).isoformat()
-        write_json(comparison_path, comparison)
-        write_json(args.run_root / "comparison.json", comparison)
-        print(json.dumps({"status": "metrics_recomputed", "comparison": str(comparison_path), "delta": comparison["delta"]}, ensure_ascii=False, indent=2))
-        return
-    video_request = baseline_record["video"]["request"]
-    improved_prompt = str(video_request["prompt"]) + (
-        "\nPhase 3 refinement: make the camera motion visibly readable but restrained. "
-        "Use one continuous camera path with a 10 percent macro push-in from 0.0-1.0s, "
-        "a smooth 20-degree clockwise orbit from 1.0-2.7s, a single warm caustic sweep "
-        "across the glass from 2.7-3.4s, then a steady 0.6s hero hold. Keep the bottle's "
-        "center, footprint, cap, liquid level and base locked to the same identity; move the "
-        "camera and light, never the product geometry. The first and last frames should be "
-        "clean hero compositions with a stable horizon and continuous background."
-    )
-    payload = {
-        "model": "hunyuanvideo_15_i2v",
-        "prompt": improved_prompt,
-        "negative_prompt": video_request.get("negative_prompt"),
-        "input_image": str(reference_path.resolve()),
-        "width": int(video_request["width"]),
-        "height": int(video_request["height"]),
-        "num_frames": int(video_request["num_frames"]),
-        "fps": int(video_request["fps"]),
-        "seed": int(video_request["seed"]),
-        "candidate_ranking": "identity_temporal",
-        "identity_weight": args.identity_weight,
-    }
-
-    print(json.dumps({"phase": "3", "sample": "sample-02", "payload": payload}, ensure_ascii=False, indent=2))
-    submission = request(args.base_url, "/v1/video", payload)
-    improved_job = wait_job(args.base_url, submission["id"], args.request_timeout)
-    if improved_job.get("status") != "succeeded":
-        raise RuntimeError(json.dumps(improved_job, ensure_ascii=False))
-    result = improved_job.get("result") or {}
-    improved_worker_path = url_to_path(str(result["video_url"]))
-    if not improved_worker_path.is_file():
-        raise FileNotFoundError(improved_worker_path)
-
+    full_run = args.run_dir.resolve()
+    if not full_run.is_dir():
+        raise FileNotFoundError(f"full evaluation run not found: {full_run}")
+    sample_run = args.three_sample_run.resolve()
+    if args.run_three_sample:
+        run_three_sample_evaluation(args, sample_run)
+    if not sample_run.is_dir() or not metric_files(sample_run):
+        sample_run = None
+    full_rows = load_metrics(full_run)
+    if not full_rows:
+        raise FileNotFoundError(f"no metric JSON files under {full_run / 'metrics'}")
+    report = make_report(full_rows, load_metrics(sample_run) if sample_run else None, full_run, sample_run)
     args.output_root.mkdir(parents=True, exist_ok=True)
-    baseline_out = args.output_root / "baseline.mp4"
-    improved_out = args.output_root / "improved.mp4"
-    shutil.copy2(baseline_path, baseline_out)
-    shutil.copy2(improved_worker_path, improved_out)
-    baseline_metrics = evaluate_video(baseline_out, reference_path, args.dino_path)
-    improved_metrics = evaluate_video(improved_out, reference_path, args.dino_path)
-    comparison = {
-        "schema_version": "metacut.phase3_ablation/v1",
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "sample_id": "perfume_flacon",
-        "sample_label": "example / perfume flacon",
-        "baseline": {
-            "source": str(baseline_path),
-            "output": str(baseline_out),
-            "sha256": sha256(baseline_out),
-            "phase2_record": str(args.baseline_record),
-            "metrics": baseline_metrics,
-        },
-        "improved": {
-            "output": str(improved_out),
-            "sha256": sha256(improved_out),
-            "request": payload,
-            "service_result": result,
-            "metrics": improved_metrics,
-        },
-        "delta": {
-            key: (improved_metrics.get(key) - baseline_metrics.get(key))
-            for key in ("temporal_stability", "motion_presence", "storyboard_adherence_heuristic", "masked_dino_product_similarity")
-            if isinstance(improved_metrics.get(key), (int, float)) and isinstance(baseline_metrics.get(key), (int, float))
-        },
-        "acceptance_note": "The improved clip is a candidate method change; final visual quality should be judged by side-by-side playback, with metrics used as supporting evidence.",
-    }
-    write_json(args.output_root / "comparison.json", comparison)
-    write_json(args.output_root / "README.json", {
-        "baseline": "baseline.mp4 (Phase 2.5 unchanged)",
-        "improved": "improved.mp4 (Phase 3 explicit camera prompt + DINO/temporal candidate ranking)",
-        "comparison": "comparison.json",
-    })
-    write_json(args.run_root / "comparison.json", comparison)
-    (args.run_root / "improved-job.json").parent.mkdir(parents=True, exist_ok=True)
-    write_json(args.run_root / "improved-job.json", improved_job)
-    print(json.dumps({"status": "succeeded", "baseline": str(baseline_out), "improved": str(improved_out), "comparison": str(args.output_root / "comparison.json"), "service_candidate_ranking": result.get("candidate_ranking"), "selected_candidate": result.get("selected_candidate")}, ensure_ascii=False, indent=2))
+    write_json(args.output_root / "ablation.json", report)
+    write_markdown(report, args.output_root / "ablation.md")
+    print(json.dumps({"status": "succeeded", "rows": len(report["rows"]), "output": str(args.output_root / "ablation.json"), "three_sample_run": str(sample_run) if sample_run else None}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

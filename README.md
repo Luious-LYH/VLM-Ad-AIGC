@@ -8,6 +8,10 @@
 
 下面以一个商品示例记录完整的图像生成、视频生成和 VLM 评测结果。实验统一使用 **97 帧、24 FPS、576×768、约 4 秒、seed=20260909**。HunyuanVideo 当前生成结果存在明显噪声和色块异常，因此本示例只展示已保留的 SDXL/FLUX 与 LTXV/Wan2.2 组合。
 
+本仓库的商品属性标签是针对这张演示图的人工复核标签，不是公开数据集 GT；DINO、CLIP、时序和 Storyboard 数值都是可解释的参考保持/视觉规则代理指标。它们用于工程选型和回归检查，不单独代表人工审美质量或跨数据集泛化能力。
+
+实验完整性审计记录见 [`docs/EXPERIMENT_AUDIT.md`](docs/EXPERIMENT_AUDIT.md)。
+
 ## 表一：图像生成模型、视频生成模型与产物
 
 VLM 不参与视频扩散生成，因此每个图像模型和视频模型组合只保留一个唯一 MP4。输入图片是商品原图，关键帧由对应图像模型生成，视频由对应视频模型根据关键帧生成。
@@ -38,7 +42,7 @@ VLM 仅负责从商品图提取商品类别、颜色、材质、包装结构和 
 
 ## v0.1 实际运行证明
 
-下面是服务器 `172.21.141.89` 上对上述四个唯一 MP4 的真实评测结果。每个视频解码为 97 帧、24 FPS、576×768，并均匀采样 16 帧；输入商品分割在当前部署中使用 `saliency_component`（SAM3.1 / GroundingDINO+SAM2 权重未部署，manifest 会明确记录这一回退）。完整 JSON、mask、overlay、证据帧和 Markdown 报告保存在服务器的 `runs/v0.1/sample02-fresh-provenance-v3/`；该运行同时引用了 fresh Wan2.2/LTXV sidecar，因此每个组合的生成延迟、峰值显存和模型 revision 均可逐条追溯。
+下面是服务器 `172.21.141.89` 上对上述四个唯一 MP4 的真实评测结果。每个视频解码为 97 帧、24 FPS、576×768，并均匀采样 16 帧；输入商品分割在当前部署中使用 `saliency_component`（SAM3.1 / GroundingDINO+SAM2 权重未部署，manifest 会明确记录这一回退）。完整 JSON、mask、overlay、证据帧和 Markdown 报告保存在服务器的 `runs/v0.1/sample02-fresh-provenance-v3/`；该运行同时引用了 fresh Wan2.2/LTXV sidecar，因此每个组合的生成延迟、峰值显存和模型 revision 均可逐条追溯。仓库内提供了不含大体量媒体的[证据索引](docs/evidence/sample02-v0.1/README.md)，其中的 `manifest.json`、`metrics-summary.json` 和两个 VLM JSON 可核对下表数字。
 
 | 图像模型 | 视频模型 | masked DINO mean | p10 | min | std | 输入→关键帧 DINO | CLIP-I | CLIP-V | Storyboard | 时序稳定性 |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -138,9 +142,17 @@ python scripts/run-v01-pipeline.py \
   --vlm-path models/Qwen3-VL-4B-Instruct-v3
 ```
 
+在服务器上需同时设置 `AIGC_MODEL_ROOT` 和 `AIGC_SERVICE_PYTHON`；wrapper 会把后续生成与评测子进程固定到该 ML 运行时。已验证的单命令 smoke run 使用 `FLUX.2-klein-4B + Wan2.2 TI2V-5B`，其清单和指标已收录在[证据索引](docs/evidence/sample02-v0.1/README.md)。需要快速复跑单个组合时，可加 `--only-image-model flux2_klein --only-video-model wan22_ti2v_5b`；已有媒体可加 `--reuse-existing`，不会重复占用 GPU。
+
+对于一张没有人工复核属性的新商品图，VLM 仍会输出严格 `product/v1` JSON，但属性/OCR 准确率会明确记为 `unavailable_manual_labels_required`，不会用“unknown”标签伪造准确率。
+
 模型角色、路径环境变量、版本和能力集中记录在 [`configs/v0.1/model-registry.json`](configs/v0.1/model-registry.json)。生成失败不会静默换模型；只有显式设置 `AIGC_ALLOW_EXPLICIT_FALLBACK=true` 才允许带原因的回退。
 
 默认矩阵为 **2 VLM × 2 图像模型 × 2 视频模型**。VLM 负责商品 JSON 理解与评测；SDXL + IP-Adapter 或 FLUX.2-klein 负责关键帧；LTXV 或 Wan2.2 负责 I2V；DINO/CLIP 和时序启发式脚本负责离线评测。服务端的 Python 依赖、API schema 和测试位于 `services/aigc-service/`。
+
+## Phase 3 小消融
+
+[`scripts/run-phase3-ablation.py`](scripts/run-phase3-ablation.py) 从已完成的 v0.1 评测生成离线消融报告：真实商品 mask 对比旧中心椭圆、均匀 3 帧对比 16 帧，以及事件级 Storyboard 对比旧运动启发式。它不会再启动 Hunyuan 或重复生成视频；服务器生成的 `results/phase3/sample-02/ablation.{json,md}` 只作为单样本代理证据，需结合证据帧人工检查。
 
 后续迭代边界和可直接交给本地 Agent 的执行提示词见 [`docs/plans/`](docs/plans/)。
 

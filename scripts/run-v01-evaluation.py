@@ -387,15 +387,13 @@ def load_generation_records(record_root: Path) -> dict[str, dict[str, Any]]:
     return indexed
 
 
-def run_vlm_product(config_path: Path, model: str, model_path: Path, input_path: Path, out_dir: Path) -> dict[str, Any]:
+def run_vlm_product(config_path: Path, model: str, model_path: Path, input_path: Path, out_dir: Path,
+                    ground_truth: dict[str, Any]) -> dict[str, Any]:
     """Reuse the tested strict product/v1 runner and materialize its output."""
     manifest = out_dir / "vlm-sample-manifest.json"
     write_json(manifest, {"samples": [{
         "id": "perfume_flacon", "label": "Example perfume flacon", "source": str(input_path),
-        "ground_truth": {"category": "perfume", "form_factor": "single rectangular glass flacon",
-                          "colors": ["amber", "champagne gold"], "material": "glass and metal",
-                          "finish": "glossy glass with brushed metal", "closure": "fitted cap",
-                          "container_count": 1, "ocr_text": []},
+        "ground_truth": ground_truth,
     }]})
     target = out_dir / "vlm"
     command = [sys.executable, str(PROJECT_ROOT / "scripts/run-phase2-vlm.py"),
@@ -524,7 +522,12 @@ def main() -> None:
     if args.vlm_model != "none":
         if args.vlm_path is None:
             raise ValueError("--vlm-path is required when --vlm-model is selected")
-        product_record = run_vlm_product(args.config.resolve(), args.vlm_model, args.vlm_path.resolve(), input_path, run_dir / "understanding")
+        samples = config.get("samples", [])
+        sample_ground_truth = samples[0].get("ground_truth", {}) if samples else {}
+        product_record = run_vlm_product(
+            args.config.resolve(), args.vlm_model, args.vlm_path.resolve(), input_path,
+            run_dir / "understanding", sample_ground_truth,
+        )
     if args.vlm_model == "none":
         write_json(run_dir / "understanding" / "product.json", product_record)
     intent = {

@@ -1,0 +1,449 @@
+{
+  "schema_version": "metacut.phase3_ablation/v2",
+  "created_at": "2026-09-12T05:49:53.018856+00:00",
+  "sample_id": "perfume_flacon",
+  "full_evaluation_run": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/sample02-fresh-provenance-v3",
+  "three_sample_evaluation_run": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/phase3/sample-02/eval-3",
+  "evaluation_type": "self_supervised_proxy_and_manual_storyboard_proxy",
+  "rows": [
+    {
+      "video_id": "flux2_klein__ltxv_2b__perfume_flacon",
+      "mask_ablation": {
+        "real_product_mask": {
+          "status": "succeeded",
+          "values": [
+            0.88856,
+            0.87155,
+            0.84311,
+            0.76329,
+            0.77627,
+            0.72493,
+            0.67538,
+            0.67718,
+            0.67945,
+            0.73741,
+            0.76705,
+            0.75278,
+            0.72526,
+            0.64493,
+            0.58376,
+            0.51566
+          ],
+          "mean": 0.72666,
+          "min": 0.51566,
+          "p10": 0.58376,
+          "std": 0.0955
+        },
+        "legacy_center_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.98526,
+            0.98528,
+            0.98094,
+            0.97584,
+            0.96699,
+            0.95072,
+            0.91652,
+            0.88536,
+            0.85537,
+            0.88793,
+            0.88272,
+            0.86158,
+            0.85508,
+            0.8328,
+            0.80521,
+            0.78842
+          ],
+          "mean": 0.901,
+          "min": 0.78842,
+          "p10": 0.80521,
+          "std": 0.06435
+        },
+        "mean_delta_real_minus_ellipse": -0.17434,
+        "interpretation": "reference-preservation proxy; ellipse is diagnostic only"
+      },
+      "sampling_ablation": {
+        "uniform_16": {
+          "status": "succeeded",
+          "values": [
+            0.88856,
+            0.87155,
+            0.84311,
+            0.76329,
+            0.77627,
+            0.72493,
+            0.67538,
+            0.67718,
+            0.67945,
+            0.73741,
+            0.76705,
+            0.75278,
+            0.72526,
+            0.64493,
+            0.58376,
+            0.51566
+          ],
+          "mean": 0.72666,
+          "min": 0.51566,
+          "p10": 0.58376,
+          "std": 0.0955
+        },
+        "uniform_3": {
+          "status": "succeeded",
+          "values": [
+            0.88856,
+            0.68389,
+            0.51566
+          ],
+          "mean": 0.69604,
+          "min": 0.51566,
+          "p10": 0.51566,
+          "std": 0.15248
+        },
+        "three_frame_run": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/phase3/sample-02/eval-3",
+        "interpretation": "3-frame result is an independent evaluator run when present; it is less sensitive to intermittent failures than 16 uniform samples"
+      },
+      "storyboard_ablation": {
+        "event_level_score": 0.855,
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.5157,
+          "motion_smoothness": 0.4189,
+          "dynamic_degree": 0.8636,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        },
+        "interpretation": "event-level score checks configured time windows and product-region evidence; legacy value is retained for comparison"
+      }
+    },
+    {
+      "video_id": "flux2_klein__wan22_ti2v_5b__perfume_flacon",
+      "mask_ablation": {
+        "real_product_mask": {
+          "status": "succeeded",
+          "values": [
+            0.90628,
+            0.87325,
+            0.93058,
+            0.92716,
+            0.91205,
+            0.81292,
+            0.91284,
+            0.90859,
+            0.90629,
+            0.88841,
+            0.90131,
+            0.90083,
+            0.907,
+            0.90817,
+            0.89988,
+            0.89807
+          ],
+          "mean": 0.8996,
+          "min": 0.81292,
+          "p10": 0.87325,
+          "std": 0.02585
+        },
+        "legacy_center_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.98996,
+            0.98759,
+            0.98776,
+            0.98655,
+            0.98575,
+            0.98618,
+            0.98575,
+            0.98635,
+            0.9859,
+            0.98556,
+            0.98579,
+            0.98549,
+            0.98412,
+            0.98401,
+            0.98365,
+            0.9827
+          ],
+          "mean": 0.98582,
+          "min": 0.9827,
+          "p10": 0.98365,
+          "std": 0.00169
+        },
+        "mean_delta_real_minus_ellipse": -0.08622,
+        "interpretation": "reference-preservation proxy; ellipse is diagnostic only"
+      },
+      "sampling_ablation": {
+        "uniform_16": {
+          "status": "succeeded",
+          "values": [
+            0.90628,
+            0.87325,
+            0.93058,
+            0.92716,
+            0.91205,
+            0.81292,
+            0.91284,
+            0.90859,
+            0.90629,
+            0.88841,
+            0.90131,
+            0.90083,
+            0.907,
+            0.90817,
+            0.89988,
+            0.89807
+          ],
+          "mean": 0.8996,
+          "min": 0.81292,
+          "p10": 0.87325,
+          "std": 0.02585
+        },
+        "uniform_3": {
+          "status": "succeeded",
+          "values": [
+            0.90628,
+            0.90329,
+            0.89807
+          ],
+          "mean": 0.90255,
+          "min": 0.89807,
+          "p10": 0.89807,
+          "std": 0.00339
+        },
+        "three_frame_run": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/phase3/sample-02/eval-3",
+        "interpretation": "3-frame result is an independent evaluator run when present; it is less sensitive to intermittent failures than 16 uniform samples"
+      },
+      "storyboard_ablation": {
+        "event_level_score": 0.565,
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.8142,
+          "motion_smoothness": 0.7771,
+          "dynamic_degree": 0.1602,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        },
+        "interpretation": "event-level score checks configured time windows and product-region evidence; legacy value is retained for comparison"
+      }
+    },
+    {
+      "video_id": "sdxl_ip_adapter__ltxv_2b__perfume_flacon",
+      "mask_ablation": {
+        "real_product_mask": {
+          "status": "succeeded",
+          "values": [
+            0.62365,
+            0.61959,
+            0.62125,
+            0.61838,
+            0.55551,
+            0.23312,
+            0.25524,
+            0.33897,
+            0.42168,
+            0.43112,
+            0.47229,
+            0.48231,
+            0.47543,
+            0.46935,
+            0.58696,
+            0.53457
+          ],
+          "mean": 0.48371,
+          "min": 0.23312,
+          "p10": 0.25524,
+          "std": 0.12157
+        },
+        "legacy_center_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.765,
+            0.76991,
+            0.76824,
+            0.76677,
+            0.73956,
+            0.69057,
+            0.65156,
+            0.62398,
+            0.61447,
+            0.61417,
+            0.61305,
+            0.59987,
+            0.61345,
+            0.62924,
+            0.62731,
+            0.66329
+          ],
+          "mean": 0.6719,
+          "min": 0.59987,
+          "p10": 0.61305,
+          "std": 0.0646
+        },
+        "mean_delta_real_minus_ellipse": -0.18819,
+        "interpretation": "reference-preservation proxy; ellipse is diagnostic only"
+      },
+      "sampling_ablation": {
+        "uniform_16": {
+          "status": "succeeded",
+          "values": [
+            0.62365,
+            0.61959,
+            0.62125,
+            0.61838,
+            0.55551,
+            0.23312,
+            0.25524,
+            0.33897,
+            0.42168,
+            0.43112,
+            0.47229,
+            0.48231,
+            0.47543,
+            0.46935,
+            0.58696,
+            0.53457
+          ],
+          "mean": 0.48371,
+          "min": 0.23312,
+          "p10": 0.25524,
+          "std": 0.12157
+        },
+        "uniform_3": {
+          "status": "succeeded",
+          "values": [
+            0.62365,
+            0.42058,
+            0.53457
+          ],
+          "mean": 0.52627,
+          "min": 0.42058,
+          "p10": 0.42058,
+          "std": 0.08311
+        },
+        "three_frame_run": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/phase3/sample-02/eval-3",
+        "interpretation": "3-frame result is an independent evaluator run when present; it is less sensitive to intermittent failures than 16 uniform samples"
+      },
+      "storyboard_ablation": {
+        "event_level_score": 0.71,
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.1034,
+          "motion_smoothness": 0.0,
+          "dynamic_degree": 0.9816,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        },
+        "interpretation": "event-level score checks configured time windows and product-region evidence; legacy value is retained for comparison"
+      }
+    },
+    {
+      "video_id": "sdxl_ip_adapter__wan22_ti2v_5b__perfume_flacon",
+      "mask_ablation": {
+        "real_product_mask": {
+          "status": "succeeded",
+          "values": [
+            0.69725,
+            0.6122,
+            0.62577,
+            0.59546,
+            0.64621,
+            0.61235,
+            0.61648,
+            0.57746,
+            0.59429,
+            0.58047,
+            0.62752,
+            0.58517,
+            0.19935,
+            0.57688,
+            0.58415,
+            0.58582
+          ],
+          "mean": 0.5823,
+          "min": 0.19935,
+          "p10": 0.57688,
+          "std": 0.10346
+        },
+        "legacy_center_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.77305,
+            0.76738,
+            0.77316,
+            0.77207,
+            0.76837,
+            0.7768,
+            0.78288,
+            0.78315,
+            0.78139,
+            0.78348,
+            0.78062,
+            0.78378,
+            0.77951,
+            0.77637,
+            0.78208,
+            0.78844
+          ],
+          "mean": 0.77828,
+          "min": 0.76738,
+          "p10": 0.76837,
+          "std": 0.00587
+        },
+        "mean_delta_real_minus_ellipse": -0.19598,
+        "interpretation": "reference-preservation proxy; ellipse is diagnostic only"
+      },
+      "sampling_ablation": {
+        "uniform_16": {
+          "status": "succeeded",
+          "values": [
+            0.69725,
+            0.6122,
+            0.62577,
+            0.59546,
+            0.64621,
+            0.61235,
+            0.61648,
+            0.57746,
+            0.59429,
+            0.58047,
+            0.62752,
+            0.58517,
+            0.19935,
+            0.57688,
+            0.58415,
+            0.58582
+          ],
+          "mean": 0.5823,
+          "min": 0.19935,
+          "p10": 0.57688,
+          "std": 0.10346
+        },
+        "uniform_3": {
+          "status": "succeeded",
+          "values": [
+            0.69725,
+            0.58428,
+            0.58582
+          ],
+          "mean": 0.62245,
+          "min": 0.58428,
+          "p10": 0.58428,
+          "std": 0.05289
+        },
+        "three_frame_run": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/phase3/sample-02/eval-3",
+        "interpretation": "3-frame result is an independent evaluator run when present; it is less sensitive to intermittent failures than 16 uniform samples"
+      },
+      "storyboard_ablation": {
+        "event_level_score": 0.71,
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.8926,
+          "motion_smoothness": 0.8711,
+          "dynamic_degree": 0.1482,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        },
+        "interpretation": "event-level score checks configured time windows and product-region evidence; legacy value is retained for comparison"
+      }
+    }
+  ],
+  "limitations": [
+    "DINO measures reference-preservation similarity, not overall visual quality.",
+    "The centre ellipse is included only to show why a real product mask matters; it is not the primary score.",
+    "Three versus sixteen frames changes sampling coverage, not the generated video.",
+    "Storyboard values are explainable project heuristics and require human side-by-side review.",
+    "Prompt-original versus VLM-rewrite is not run in this v0.1 artifact because VLM does not alter the generation request by default."
+  ]
+}
