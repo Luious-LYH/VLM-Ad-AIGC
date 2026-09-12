@@ -74,7 +74,7 @@ python scripts/run-v01-storyboard-review.py \
   --model-path /public/lyh/projects/CV_projects/models/Qwen3-VL-4B-Instruct-v3
 ```
 
-本次真实复核产物为 `runs/v0.1/sample02-v01-final2/storyboard/vlm_review/qwen3_vl.json`；其中每个视频的 4 个事件均保存了 VLM 的是否发生、置信度、失败原因、证据帧、延迟和显存。VLM 结果只作为独立证据，不覆盖可解释的视觉规则分数。
+本次真实复核产物为 `runs/v0.1/sample02-fresh-provenance-v3/storyboard/vlm_review/qwen3_vl.json`；其中每个视频的 4 个事件均保存了 VLM 的是否发生、置信度、失败原因、证据帧、延迟和显存。VLM 结果只作为独立证据，不覆盖可解释的视觉规则分数。
 
 ## 表三：使用的提示词（中英文）
 
