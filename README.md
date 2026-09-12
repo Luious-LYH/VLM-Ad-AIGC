@@ -142,7 +142,7 @@ python scripts/run-v01-pipeline.py \
   --vlm-path models/Qwen3-VL-4B-Instruct-v3
 ```
 
-在服务器上需同时设置 `AIGC_MODEL_ROOT` 和 `AIGC_SERVICE_PYTHON`；wrapper 会把后续生成与评测子进程固定到该 ML 运行时。已验证的单命令 smoke run 使用 `FLUX.2-klein-4B + Wan2.2 TI2V-5B`，其清单和指标已收录在[证据索引](docs/evidence/sample02-v0.1/README.md)。需要快速复跑单个组合时，可加 `--only-image-model flux2_klein --only-video-model wan22_ti2v_5b`；已有媒体可加 `--reuse-existing`，不会重复占用 GPU。
+在服务器上需同时设置 `AIGC_MODEL_ROOT` 和 `AIGC_SERVICE_PYTHON`；wrapper 会把后续生成与评测子进程固定到该 ML 运行时。修复后已完成一条不复用媒体的 `FLUX.2-klein-4B + LTXV-2B` 单命令 smoke run；其清单和指标已收录在[证据索引](docs/evidence/sample02-v0.1/README.md)。需要快速复跑单个组合时，可加 `--only-image-model flux2_klein --only-video-model wan22_ti2v_5b`；已有媒体可加 `--reuse-existing`，不会重复占用 GPU。
 
 对于一张没有人工复核属性的新商品图，VLM 仍会输出严格 `product/v1` JSON，但属性/OCR 准确率会明确记为 `unavailable_manual_labels_required`，不会用“unknown”标签伪造准确率。
 

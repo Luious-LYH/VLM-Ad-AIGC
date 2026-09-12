@@ -1,11 +1,11 @@
 {
   "schema_version": "run_manifest/v1",
-  "run_id": "pipeline-wrapper-live",
-  "created_at": "2026-09-12T06:29:04.759750+00:00",
-  "finished_at": "2026-09-12T06:29:04.759779+00:00",
+  "run_id": "pipeline-wrapper-e2e-final",
+  "created_at": "2026-09-12T06:35:52.039418+00:00",
+  "finished_at": "2026-09-12T06:35:52.039444+00:00",
   "input": {
     "path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/samples/sample-02/input.png",
-    "copied_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/input/input.png",
+    "copied_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/input/input.png",
     "sha256": "affa3f2d51e49a57c4c021b3f9ea0802239e3ef4e1ee77d835428855711a72ee",
     "mask": {
       "schema_version": "segmentation/v1",
@@ -26,9 +26,9 @@
         "groundingdino+sam2",
         "saliency_component"
       ],
-      "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/input/input.mask.png",
-      "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/input/input.foreground.png",
-      "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/input/input.overlay.png"
+      "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/input/input.mask.png",
+      "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/input/input.foreground.png",
+      "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/input/input.overlay.png"
     }
   },
   "prompt": {
@@ -50,12 +50,12 @@
       "wan22_ti2v_5b"
     ]
   },
-  "config": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/pipeline-config.json",
+  "config": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/pipeline-config.json",
   "evaluation_config": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/configs/v0.1/evaluation.json",
-  "record_root": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/generation",
+  "record_root": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/generation",
   "generation_records": [
-    "flux2_klein__wan22_ti2v_5b",
-    "flux2_klein__wan22_ti2v_5b__pipeline_product"
+    "flux2_klein__ltxv_2b",
+    "flux2_klein__ltxv_2b__pipeline_product"
   ],
   "model_registry": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/configs/v0.1/model-registry.json",
   "registry_models": {
@@ -184,8 +184,8 @@
   "hardware": {
     "nvidia_smi": [
       "0, NVIDIA GeForce RTX 3090, 3 MiB, 24576 MiB, 0 %",
-      "1, NVIDIA GeForce RTX 3090, 364 MiB, 24576 MiB, 0 %",
-      "2, NVIDIA GeForce RTX 3090, 11458 MiB, 24576 MiB, 0 %"
+      "1, NVIDIA GeForce RTX 3090, 388 MiB, 24576 MiB, 0 %",
+      "2, NVIDIA GeForce RTX 3090, 456 MiB, 24576 MiB, 0 %"
     ]
   },
   "embedding_model_errors": {},
@@ -211,12 +211,12 @@
   },
   "media": [
     {
-      "video_id": "flux2_klein__wan22_ti2v_5b__pipeline_product",
-      "video": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-live/_shared/videos/flux2_klein__wan22_ti2v_5b__pipeline_product.mp4",
-      "keyframe": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-live/_shared/keyframes/flux2_klein__pipeline_product.png",
-      "mask_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-live/evaluation/pipeline-wrapper-live/masks/videos/flux2_klein__wan22_ti2v_5b__pipeline_product"
+      "video_id": "flux2_klein__ltxv_2b__pipeline_product",
+      "video": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-e2e-final/_shared/videos/flux2_klein__ltxv_2b__pipeline_product.mp4",
+      "keyframe": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-e2e-final/_shared/keyframes/flux2_klein__pipeline_product.png",
+      "mask_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/videos/flux2_klein__ltxv_2b__pipeline_product"
     }
   ],
   "metrics_count": 1,
-  "elapsed_ms": 23208
+  "elapsed_ms": 31381
 }

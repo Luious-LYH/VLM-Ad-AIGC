@@ -1,0 +1,416 @@
+{
+  "schema_version": "evaluation/v1",
+  "run_id": "pipeline-wrapper-e2e-final",
+  "records": [
+    {
+      "schema_version": "evaluation/v1",
+      "video_id": "flux2_klein__ltxv_2b__pipeline_product",
+      "video_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-e2e-final/_shared/videos/flux2_klein__ltxv_2b__pipeline_product.mp4",
+      "video_sha256": "e3849e77628eb797b85c315ede488b20dfc8b97e5de14c52328964d806ff0c3e",
+      "keyframe_path": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/public/uploads/pipeline-wrapper-e2e-final/_shared/keyframes/flux2_klein__pipeline_product.png",
+      "understanding": {
+        "model": null,
+        "status": "unavailable",
+        "json_schema_pass": null,
+        "attribute_recognition": null,
+        "ocr_accuracy": null,
+        "ocr_protocol": null
+      },
+      "tracking": {
+        "status": "succeeded",
+        "sample_count": 16,
+        "source_frame_indices": [
+          0,
+          6,
+          13,
+          19,
+          26,
+          32,
+          38,
+          45,
+          51,
+          58,
+          64,
+          70,
+          77,
+          83,
+          90,
+          96
+        ],
+        "valid_mask_count": 16,
+        "tracked_mask_count": 16,
+        "product_appearance_rate": 1.0,
+        "tracking_interruptions": 0,
+        "backend_sequence": [
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component",
+          "saliency_component"
+        ],
+        "fallback_reasons": [
+          "sam3.1_and_groundingdino_sam2_not_available_or_not_validated"
+        ]
+      },
+      "segmentation": {
+        "input": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5470123291015625,
+          "bbox": [
+            213,
+            205,
+            559,
+            759
+          ],
+          "area_fraction": 0.15068689982096353,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/input/input.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/input/input.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/input/input.overlay.png"
+        },
+        "keyframe": {
+          "schema_version": "segmentation/v1",
+          "backend": "saliency_component",
+          "status": "succeeded",
+          "confidence": 0.5247802734375,
+          "bbox": [
+            212,
+            206,
+            559,
+            759
+          ],
+          "area_fraction": 0.13748296101888022,
+          "fallback_reason": "sam3.1_and_groundingdino_sam2_not_available_or_not_validated",
+          "attempted_backends": [
+            "alpha",
+            "sam3.1",
+            "groundingdino+sam2",
+            "saliency_component"
+          ],
+          "mask": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/keyframes/flux2_klein/keyframe.mask.png",
+          "foreground": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/keyframes/flux2_klein/keyframe.foreground.png",
+          "overlay": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/masks/keyframes/flux2_klein/keyframe.overlay.png"
+        }
+      },
+      "segmentation_success": {
+        "status": "succeeded",
+        "input": true,
+        "keyframe": true,
+        "video_raw_rate": 1.0,
+        "method": "alpha_or_saliency_component_with_video_mask_tracking"
+      },
+      "product_consistency": {
+        "status": "succeeded",
+        "reference_mask_backend": "saliency_component",
+        "keyframe_mask_backend": "saliency_component",
+        "video": {
+          "status": "succeeded",
+          "values": [
+            0.90576,
+            0.89873,
+            0.90026,
+            0.91371,
+            0.91352,
+            0.91536,
+            0.95371,
+            0.91172,
+            0.94462,
+            0.9243,
+            0.93605,
+            0.91814,
+            0.9146,
+            0.87362,
+            0.77168,
+            0.77598
+          ],
+          "mean": 0.89824,
+          "min": 0.77168,
+          "p10": 0.77598,
+          "std": 0.05036
+        },
+        "keyframe": {
+          "status": "succeeded",
+          "values": [
+            0.94427
+          ],
+          "mean": 0.94427,
+          "min": 0.94427,
+          "p10": 0.94427,
+          "std": 0.0
+        },
+        "legacy_ellipse": {
+          "status": "succeeded",
+          "values": [
+            0.98464,
+            0.986,
+            0.98292,
+            0.98093,
+            0.97713,
+            0.97935,
+            0.97578,
+            0.97395,
+            0.96817,
+            0.96047,
+            0.96412,
+            0.95483,
+            0.94831,
+            0.93653,
+            0.8868,
+            0.8559
+          ],
+          "mean": 0.95724,
+          "min": 0.8559,
+          "p10": 0.8868,
+          "std": 0.03556
+        },
+        "tracking_interruptions": 0,
+        "sample_count": 16
+      },
+      "text_match": {
+        "caption": "premium perfume, single rectangular amber glass flacon, champagne gold cap",
+        "image": 0.28597,
+        "video": 0.29235,
+        "clip_status": "succeeded"
+      },
+      "storyboard": {
+        "status": "succeeded",
+        "method": "event_level_visual_rules_plus_optional_vlm_review",
+        "score": 0.71,
+        "order_ok": true,
+        "continuity_score": 1.0,
+        "events": [
+          {
+            "id": "event_01",
+            "target_window_s": [
+              0.0,
+              0.8
+            ],
+            "observed_window_s": [
+              0.0,
+              0.7917
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "product_scale_increases",
+            "area_ratio": 1.00623,
+            "centre_jitter": 0.00545,
+            "foreground_brightness_range": 0.01418,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_01_00_frame-0000.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_01_01_frame-0002.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_01_02_frame-0003.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_02",
+            "target_window_s": [
+              0.8,
+              2.1
+            ],
+            "observed_window_s": [
+              1.0833,
+              1.875
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "continuous_horizontal_parallax",
+            "area_ratio": 1.00487,
+            "centre_jitter": 0.02366,
+            "foreground_brightness_range": 0.01943,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_02_00_frame-0004.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_02_01_frame-0006.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_02_02_frame-0007.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_03",
+            "target_window_s": [
+              2.1,
+              3.2
+            ],
+            "observed_window_s": [
+              2.125,
+              2.9167
+            ],
+            "completed_by_visual_rules": false,
+            "visual_evidence_score": 0.35,
+            "expected_visual_evidence": "foreground_brightness_changes",
+            "area_ratio": 1.02728,
+            "centre_jitter": 0.03184,
+            "foreground_brightness_range": 0.00648,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_03_00_frame-0008.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_03_01_frame-0010.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_03_02_frame-0011.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          },
+          {
+            "id": "event_04",
+            "target_window_s": [
+              3.2,
+              4.0417
+            ],
+            "observed_window_s": [
+              3.2083,
+              4.0
+            ],
+            "completed_by_visual_rules": true,
+            "visual_evidence_score": 1.0,
+            "expected_visual_evidence": "late_motion_settles",
+            "area_ratio": 0.75962,
+            "centre_jitter": 0.03569,
+            "foreground_brightness_range": 0.02846,
+            "violations": [],
+            "evidence_frames": [
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_04_00_frame-0012.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_04_01_frame-0014.png",
+              "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/storyboard/event_04_02_frame-0015.png"
+            ],
+            "vlm_review": {
+              "status": "unavailable",
+              "reason": "no_storyboard_vlm_review_supplied"
+            }
+          }
+        ],
+        "weights": {
+          "event_completion": 0.45,
+          "time_and_order": 0.25,
+          "visual_evidence": 0.2,
+          "continuity": 0.1
+        },
+        "note": "This is an explainable project evaluator, not an official VBench score or human aesthetic rating."
+      },
+      "temporal": {
+        "status": "succeeded",
+        "mean_frame_delta": 0.035836,
+        "frame_delta_jitter": 0.015073,
+        "temporal_stability": 0.6232,
+        "temporal_flicker": 0.3768,
+        "motion_smoothness": 0.5478,
+        "dynamic_degree": 0.7963,
+        "mask_area_mean": 0.14205,
+        "mask_area_std": 0.00955,
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768,
+          "sampled_frame_count": 16
+        },
+        "method": "uniform sampled frame deltas; diagnostic heuristic, not official VBench",
+        "legacy_motion_heuristic": {
+          "temporal_stability": 0.6232,
+          "motion_smoothness": 0.5478,
+          "dynamic_degree": 0.7963,
+          "note": "retained for comparison; not the event-level Storyboard score"
+        }
+      },
+      "visual_quality": {
+        "status": "succeeded",
+        "method": "masked_crop_sharpness_exposure_diagnostic",
+        "quality_score": 0.75,
+        "bad_frame_rate": 0.25,
+        "mean_sharpness": 0.006832,
+        "mean_masked_contrast": 0.17862,
+        "mean_clipped_pixel_rate": 0.435415,
+        "failure_tags": [
+          "severe_clipping_candidate"
+        ],
+        "note": "Proxy diagnostics only; final visual quality still requires human review."
+      },
+      "engineering": {
+        "probe": {
+          "frame_count": 97,
+          "fps": 24.0,
+          "width": 576,
+          "height": 768
+        },
+        "vlm_latency_ms": null,
+        "image_latency_ms": 45454,
+        "video_latency_ms": 259143,
+        "peak_vram_mb": 15987,
+        "peak_vram_by_stage_mb": {
+          "vlm": null,
+          "image": 9005,
+          "video": 15987
+        },
+        "generation_record": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/generation/videos/flux2_klein__ltxv_2b__pipeline_product.json",
+        "generation_record_status": "succeeded",
+        "image_model_revision": "local-pinned-at-deploy",
+        "video_model_revision": "official-0.9.8-distilled",
+        "failure_rate": 0.0
+      },
+      "evidence_dir": "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product",
+      "evidence_paths": [
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0000.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0000.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0006.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0006.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0013.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0013.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0019.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0019.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0026.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0026.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0032.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0032.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0038.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0038.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0045.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0045.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0051.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0051.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0058.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0058.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0064.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0064.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0070.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0070.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0077.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0077.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0083.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0083.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0090.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0090.overlay.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0096.png",
+        "/public/lyh/projects/CV_projects/VLM-Ad-AIGC/runs/v0.1/pipeline-wrapper-e2e-final/evaluation/pipeline-wrapper-e2e-final/evidence/flux2_klein__ltxv_2b__pipeline_product/frame-0096.overlay.png"
+      ]
+    }
+  ],
+  "embedding_model_errors": {}
+}

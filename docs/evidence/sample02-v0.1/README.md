@@ -13,10 +13,10 @@ data and are intentionally excluded from Git.
   understanding outputs and their schema/attribute/OCR metrics.
 - `phase3-ablation.json` / `phase3-ablation.md`: offline mask, sampling and
   Storyboard ablation computed from the same four videos.
-- `pipeline-wrapper-live-manifest.json` / `pipeline-wrapper-live-metrics.json`:
-  the independent one-command `--generate` smoke run. It generated a fresh
-  FLUX.2-klein keyframe and Wan2.2 video, then completed mask-aware evaluation
-  in the same CLI invocation.
+- `pipeline-wrapper-e2e-final-manifest.json` /
+  `pipeline-wrapper-e2e-final-metrics.json`: the independent one-command
+  `--generate` smoke run. It generated a fresh FLUX.2-klein keyframe and LTXV
+  video, then completed mask-aware evaluation in the same CLI invocation.
 
 The product attributes used for comparison are manually reviewed labels for
 this single demonstration image, not a public dataset annotation. DINO, CLIP,
