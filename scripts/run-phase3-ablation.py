@@ -22,7 +22,7 @@ from urllib.request import Request, urlopen
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RECORD = PROJECT_ROOT / "samples/example/records/record_flux.json"
+DEFAULT_RECORD = PROJECT_ROOT / "samples/sample-02/records/record_flux.json"
 DEFAULT_OUTPUT = PROJECT_ROOT / "public/uploads/phase3/sample-02"
 DEFAULT_RUN = PROJECT_ROOT / "runs/phase3/sample-02"
 
@@ -172,7 +172,7 @@ def main() -> None:
     baseline_record = read_json(args.baseline_record)
     baseline_path = resolve_media_path((baseline_record.get("video") or {}).get("output"))
     baseline_path = baseline_path or resolve_media_path(args.baseline_record.parent / "final.mp4")
-    reference_path = PROJECT_ROOT / "samples/example/keyframes/flux2_klein.png"
+    reference_path = PROJECT_ROOT / "samples/sample-02/keyframes/flux2_klein.png"
     if baseline_path is None or not baseline_path.is_file() or not reference_path.is_file():
         raise FileNotFoundError(f"baseline/reference missing: {baseline_path}, {reference_path}")
     if args.evaluate_only:

@@ -21,7 +21,7 @@ from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = PROJECT_ROOT / "configs/phase2-comparison.json"
-DEFAULT_INPUT = PROJECT_ROOT / "samples/example/input.png"
+DEFAULT_INPUT = PROJECT_ROOT / "samples/sample-02/input.png"
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -103,9 +103,9 @@ def main() -> None:
         video_root = output_root / "_shared/videos"
         record_root = run_root / "generation"
     else:
-        keyframe_root = output_root / "_shared/keyframes" if (output_root / "_shared/keyframes").is_dir() else PROJECT_ROOT / "samples/example/keyframes"
-        video_root = output_root / "_shared/videos" if (output_root / "_shared/videos").is_dir() else PROJECT_ROOT / "samples/example/videos"
-        record_root = PROJECT_ROOT / "samples/example/records"
+        keyframe_root = output_root / "_shared/keyframes" if (output_root / "_shared/keyframes").is_dir() else PROJECT_ROOT / "samples/sample-02/keyframes"
+        video_root = output_root / "_shared/videos" if (output_root / "_shared/videos").is_dir() else PROJECT_ROOT / "samples/sample-02/videos"
+        record_root = PROJECT_ROOT / "samples/sample-02/records"
 
     eval_command = [
         sys.executable, str(PROJECT_ROOT / "scripts/run-v01-evaluation.py"),

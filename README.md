@@ -14,10 +14,10 @@ VLM 不参与视频扩散生成，因此每个图像模型和视频模型组合�
 
 | # | 图像生成模型 | 视频生成模型 | 输入图片 | 关键帧图 | 生成视频 |
 |---:|---|---|---|---|---|
-| 1 | SDXL 1.0 + IP-Adapter | LTXV-2B distilled | [输入图片](samples/example/input.png) | [SDXL 关键帧](samples/example/keyframes/sdxl_ip_adapter.png) | [查看视频](samples/example/videos/sdxl_ip_adapter__ltxv_2b.mp4) |
-| 2 | SDXL 1.0 + IP-Adapter | Wan2.2 TI2V-5B | [输入图片](samples/example/input.png) | [SDXL 关键帧](samples/example/keyframes/sdxl_ip_adapter.png) | [查看视频](samples/example/videos/sdxl_ip_adapter__wan22_ti2v_5b.mp4) |
-| 3 | FLUX.2-klein-4B | LTXV-2B distilled | [输入图片](samples/example/input.png) | [FLUX 关键帧](samples/example/keyframes/flux2_klein.png) | [查看视频](samples/example/videos/flux2_klein__ltxv_2b.mp4) |
-| 4 | FLUX.2-klein-4B | Wan2.2 TI2V-5B | [输入图片](samples/example/input.png) | [FLUX 关键帧](samples/example/keyframes/flux2_klein.png) | [查看视频](samples/example/videos/flux2_klein__wan22_ti2v_5b.mp4) |
+| 1 | SDXL 1.0 + IP-Adapter | LTXV-2B distilled | [输入图片](samples/sample-02/input.png) | [SDXL 关键帧](samples/sample-02/keyframes/sdxl_ip_adapter.png) | [查看视频](samples/sample-02/videos/sdxl_ip_adapter__ltxv_2b.mp4) |
+| 2 | SDXL 1.0 + IP-Adapter | Wan2.2 TI2V-5B | [输入图片](samples/sample-02/input.png) | [SDXL 关键帧](samples/sample-02/keyframes/sdxl_ip_adapter.png) | [查看视频](samples/sample-02/videos/sdxl_ip_adapter__wan22_ti2v_5b.mp4) |
+| 3 | FLUX.2-klein-4B | LTXV-2B distilled | [输入图片](samples/sample-02/input.png) | [FLUX 关键帧](samples/sample-02/keyframes/flux2_klein.png) | [查看视频](samples/sample-02/videos/flux2_klein__ltxv_2b.mp4) |
+| 4 | FLUX.2-klein-4B | Wan2.2 TI2V-5B | [输入图片](samples/sample-02/input.png) | [FLUX 关键帧](samples/sample-02/keyframes/flux2_klein.png) | [查看视频](samples/sample-02/videos/flux2_klein__wan22_ti2v_5b.mp4) |
 
 ## 表二：VLM、生成模型与评测结果
 
@@ -25,14 +25,14 @@ VLM 仅负责从商品图提取商品类别、颜色、材质、包装结构和 
 
 | # | VLM | 图像生成模型 | 视频生成模型 | 生成视频 | 商品相似度 | 时序稳定性 | Storyboard |
 |---:|---|---|---|---|---:|---:|---:|
-| 1 | Qwen3-VL-4B-Instruct | SDXL 1.0 + IP-Adapter | LTXV-2B distilled | [查看视频](samples/example/videos/sdxl_ip_adapter__ltxv_2b.mp4) | 0.48371 | 0.1034 | 0.710 |
-| 2 | Qwen3-VL-4B-Instruct | SDXL 1.0 + IP-Adapter | Wan2.2 TI2V-5B | [查看视频](samples/example/videos/sdxl_ip_adapter__wan22_ti2v_5b.mp4) | 0.58230 | 0.8926 | 0.710 |
-| 3 | Qwen3-VL-4B-Instruct | FLUX.2-klein-4B | LTXV-2B distilled | [查看视频](samples/example/videos/flux2_klein__ltxv_2b.mp4) | 0.72666 | 0.5157 | 0.855 |
-| 4 | Qwen3-VL-4B-Instruct | FLUX.2-klein-4B | Wan2.2 TI2V-5B | [查看视频](samples/example/videos/flux2_klein__wan22_ti2v_5b.mp4) | 0.89960 | 0.8142 | 0.565 |
-| 5 | InternVL3.5-8B-HF | SDXL 1.0 + IP-Adapter | LTXV-2B distilled | [查看视频](samples/example/videos/sdxl_ip_adapter__ltxv_2b.mp4) | 0.48371 | 0.1034 | 0.710 |
-| 6 | InternVL3.5-8B-HF | SDXL 1.0 + IP-Adapter | Wan2.2 TI2V-5B | [查看视频](samples/example/videos/sdxl_ip_adapter__wan22_ti2v_5b.mp4) | 0.58230 | 0.8926 | 0.710 |
-| 7 | InternVL3.5-8B-HF | FLUX.2-klein-4B | LTXV-2B distilled | [查看视频](samples/example/videos/flux2_klein__ltxv_2b.mp4) | 0.72666 | 0.5157 | 0.855 |
-| 8 | InternVL3.5-8B-HF | FLUX.2-klein-4B | Wan2.2 TI2V-5B | [查看视频](samples/example/videos/flux2_klein__wan22_ti2v_5b.mp4) | 0.89960 | 0.8142 | 0.565 |
+| 1 | Qwen3-VL-4B-Instruct | SDXL 1.0 + IP-Adapter | LTXV-2B distilled | [查看视频](samples/sample-02/videos/sdxl_ip_adapter__ltxv_2b.mp4) | 0.48371 | 0.1034 | 0.710 |
+| 2 | Qwen3-VL-4B-Instruct | SDXL 1.0 + IP-Adapter | Wan2.2 TI2V-5B | [查看视频](samples/sample-02/videos/sdxl_ip_adapter__wan22_ti2v_5b.mp4) | 0.58230 | 0.8926 | 0.710 |
+| 3 | Qwen3-VL-4B-Instruct | FLUX.2-klein-4B | LTXV-2B distilled | [查看视频](samples/sample-02/videos/flux2_klein__ltxv_2b.mp4) | 0.72666 | 0.5157 | 0.855 |
+| 4 | Qwen3-VL-4B-Instruct | FLUX.2-klein-4B | Wan2.2 TI2V-5B | [查看视频](samples/sample-02/videos/flux2_klein__wan22_ti2v_5b.mp4) | 0.89960 | 0.8142 | 0.565 |
+| 5 | InternVL3.5-8B-HF | SDXL 1.0 + IP-Adapter | LTXV-2B distilled | [查看视频](samples/sample-02/videos/sdxl_ip_adapter__ltxv_2b.mp4) | 0.48371 | 0.1034 | 0.710 |
+| 6 | InternVL3.5-8B-HF | SDXL 1.0 + IP-Adapter | Wan2.2 TI2V-5B | [查看视频](samples/sample-02/videos/sdxl_ip_adapter__wan22_ti2v_5b.mp4) | 0.58230 | 0.8926 | 0.710 |
+| 7 | InternVL3.5-8B-HF | FLUX.2-klein-4B | LTXV-2B distilled | [查看视频](samples/sample-02/videos/flux2_klein__ltxv_2b.mp4) | 0.72666 | 0.5157 | 0.855 |
+| 8 | InternVL3.5-8B-HF | FLUX.2-klein-4B | Wan2.2 TI2V-5B | [查看视频](samples/sample-02/videos/flux2_klein__wan22_ti2v_5b.mp4) | 0.89960 | 0.8142 | 0.565 |
 
 指标说明：商品相似度是输入商品前景与视频中均匀采样的最多 16 帧商品前景之间的 masked DINOv2 embedding 余弦相似度统计（mean/min/p10/std）；时序稳定性和 Storyboard 是基于帧间变化与预设分镜的可解释启发式分数，不等同于人工审美评分。VLM 不参与扩散生成，所以两种 VLM 行的 MP4 与离线视频指标相同，这是有意的去重设计。
 
@@ -131,7 +131,7 @@ python scripts/run-v01-storyboard-review.py \
 ```bash
 python scripts/run-v01-pipeline.py \
   --generate \
-  --input samples/example/input.png \
+  --input samples/sample-02/input.png \
   --prompt "premium amber perfume launch with a slow camera orbit" \
   --service-url http://127.0.0.1:8100 \
   --vlm-model qwen3_vl \
@@ -146,10 +146,12 @@ python scripts/run-v01-pipeline.py \
 
 ## 目录
 
+目录职责和服务器路径见 [`docs/PROJECT_LAYOUT.md`](docs/PROJECT_LAYOUT.md)。
+
 ```text
 configs/                 实验矩阵、提示词与输出规格
 scripts/                 VLM、图像/视频生成、评测、报告和服务启动脚本
 services/aigc-service/   FastAPI 网关、模型后端、schema 与测试
-samples/example/         可直接查看的示例输入、关键帧和四个唯一视频
+samples/sample-02/       可直接查看的示例输入、关键帧和四个唯一视频
 results/                 已完成实验的报告与 Phase 3 对照结果（本地生成）
 ```

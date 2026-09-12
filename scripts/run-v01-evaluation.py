@@ -29,7 +29,7 @@ from PIL import Image
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = PROJECT_ROOT / "configs/phase2-comparison.json"
 DEFAULT_EVAL_CONFIG = PROJECT_ROOT / "configs/v0.1/evaluation.json"
-DEFAULT_SAMPLE_ROOT = PROJECT_ROOT / "samples/example"
+DEFAULT_SAMPLE_ROOT = PROJECT_ROOT / "samples/sample-02"
 DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "runs/v0.1"
 
 

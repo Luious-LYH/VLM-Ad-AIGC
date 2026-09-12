@@ -20,7 +20,7 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 CUDA_VISIBLE_DEVICES="$GPU"
 
 "$PYTHON" scripts/run-hunyuan15-worker.py \
   --model-path "$MODEL_ROOT/HunyuanVideo-1.5-Diffusers-480p_i2v_step_distilled" \
-  --input-image "$PROJECT_ROOT/samples/example/keyframes/flux2_klein.png" \
+  --input-image "$PROJECT_ROOT/samples/sample-02/keyframes/flux2_klein.png" \
   --prompt 'Premium beauty product commercial, slow elegant 3/4 turn on a reflective studio pedestal, soft warm key light, controlled specular highlights, shallow depth of field, preserve bottle shape, cap, label layout and brand colors, no text changes, cinematic but physically stable motion' \
   --negative-prompt 'deformed packaging, duplicate product, melted label, unreadable text, watermark, flicker, jitter, camera shake, harsh exposure' \
   --output "$PROJECT_ROOT/runs/phase25/smoke/${TAG}-hy15.mp4" \

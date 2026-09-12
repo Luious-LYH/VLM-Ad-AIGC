@@ -28,7 +28,7 @@
     {
       "id": "perfume_flacon",
       "label": "Example perfume flacon",
-      "source": "samples/example/input.png",
+      "source": "samples/sample-02/input.png",
       "generate_prompt": null,
       "micro_action": "a warm caustic light sweeps through the amber glass while the gold cap catches a precise rim highlight",
       "ground_truth": {"category": "perfume", "form_factor": "single rectangular glass flacon", "colors": ["amber", "champagne gold"], "material": "glass and metal", "finish": "glossy glass with brushed metal", "closure": "fitted cap", "container_count": 1, "ocr_text": []}
