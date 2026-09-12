@@ -38,7 +38,7 @@ VLM 仅负责从商品图提取商品类别、颜色、材质、包装结构和 
 
 ## v0.1 实际运行证明
 
-下面是服务器 `172.21.141.89` 上对上述四个唯一 MP4 的真实评测结果。每个视频解码为 97 帧、24 FPS、576×768，并均匀采样 16 帧；输入商品分割在当前部署中使用 `saliency_component`（SAM3.1 / GroundingDINO+SAM2 权重未部署，manifest 会明确记录这一回退）。完整 JSON、mask、overlay、证据帧和 Markdown 报告保存在服务器的 `runs/v0.1/sample02-fresh-provenance-v2/`；该运行同时引用了 fresh Wan2.2/LTXV sidecar，因此每个组合的生成延迟、峰值显存和模型 revision 均可逐条追溯。
+下面是服务器 `172.21.141.89` 上对上述四个唯一 MP4 的真实评测结果。每个视频解码为 97 帧、24 FPS、576×768，并均匀采样 16 帧；输入商品分割在当前部署中使用 `saliency_component`（SAM3.1 / GroundingDINO+SAM2 权重未部署，manifest 会明确记录这一回退）。完整 JSON、mask、overlay、证据帧和 Markdown 报告保存在服务器的 `runs/v0.1/sample02-fresh-provenance-v3/`；该运行同时引用了 fresh Wan2.2/LTXV sidecar，因此每个组合的生成延迟、峰值显存和模型 revision 均可逐条追溯。
 
 | 图像模型 | 视频模型 | masked DINO mean | p10 | min | std | 输入→关键帧 DINO | CLIP-I | CLIP-V | Storyboard | 时序稳定性 |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
