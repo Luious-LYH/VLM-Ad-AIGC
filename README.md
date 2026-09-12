@@ -69,7 +69,7 @@ export AIGC_MODEL_ROOT=/public/lyh/projects/CV_projects/models
 
 ```bash
 python scripts/run-v01-storyboard-review.py \
-  --run-dir runs/v0.1/sample02-v01-final2 \
+  --run-dir runs/v0.1/sample02-fresh-provenance-v3 \
   --model qwen3_vl \
   --model-path /public/lyh/projects/CV_projects/models/Qwen3-VL-4B-Instruct-v3
 ```
